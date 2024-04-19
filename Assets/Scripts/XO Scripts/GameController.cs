@@ -27,18 +27,25 @@ public class GameController : MonoBehaviour{
     [SerializeField] private Button cell;
     [SerializeField] private Transform[] table;
     [SerializeField] private SetUpXOController setUpXoController;
+    [SerializeField] private GameObject hintIcon;
+    [SerializeField] private Button[] functionButtons;
+
 
     public bool withAI;
     public int currMode;
+
+    public List<bool> isWinCampaignList = new();
+    public Seed currentPlayer;
     private readonly Seed[] playerSeeds = new Seed[9];
     private LinkedList<int> cellButtonIndexList;
     private List<Button> cellButtons;
-    private Seed currentPlayer;
 
     private int currLevel;
     private LinkedList<RectTransform> iconObjectList;
 
     private GameObject lastButtonBorder;
+    private GameObject lastHintIcon;
+
     private Vector2 pos1, pos2;
 
     private void Start(){
@@ -110,11 +117,12 @@ public class GameController : MonoBehaviour{
     }
 
     private IEnumerator AITurn(){
+        DisableFunctionButtons();
         //yield on a new YieldInstruction that waits for 5 seconds.
         yield return new WaitForSeconds(0.5f);
 
         //After we have waited 5 seconds print the time again.
-
+        EnableFunctionButtons();
         if (currentPlayer == Seed.O && withAI) {
             AIPlay();
             if (IsWon(currentPlayer)) {
@@ -131,6 +139,14 @@ public class GameController : MonoBehaviour{
                 SwitchTurn();
             }
         }
+    }
+
+    private void DisableFunctionButtons(){
+        foreach (var button in functionButtons) button.interactable = false; // Disable the button
+    }
+
+    private void EnableFunctionButtons(){
+        foreach (var button in functionButtons) button.interactable = true; // Disable the button
     }
 
     //add currMode
@@ -165,6 +181,7 @@ public class GameController : MonoBehaviour{
 
         //instantiate iconObjectBorder in a button
         if (lastButtonBorder != null) Destroy(lastButtonBorder);
+        if (lastHintIcon != null) Destroy(lastHintIcon);
         var iconObjectBorder = Instantiate(turnBorder, button.transform)
             .GetComponent<RectTransform>();
         iconObjectBorder.DOScale(1.1f * Vector2.one, (float)0.3).From(Vector2.zero);
@@ -356,6 +373,50 @@ public class GameController : MonoBehaviour{
         for (var i = 0; i < currLevel * currLevel; i++) {
             var item = Instantiate(cell, table[index]);
             cellButtons.Add(item);
+        }
+    }
+
+    public void Hint(){
+        Debug.Log("Hint");
+
+        if (currentPlayer == Seed.X) {
+            int bestScore = 1000, bestPos = -1, value;
+            for (var i = 0; i < 9; i++)
+                if (playerSeeds[i] == Seed.Empty) {
+                    playerSeeds[i] = Seed.X;
+                    value = Minimax(Seed.O, playerSeeds, -1000, +1000);
+                    playerSeeds[i] = Seed.Empty;
+                    if (bestScore > value) {
+                        bestScore = value;
+                        bestPos = i;
+                    }
+                }
+
+            if (bestPos > -1) {
+                var button = cellButtons[bestPos];
+                var iconObject = Instantiate(hintIcon, button.transform)
+                    .GetComponent<RectTransform>();
+                lastHintIcon = iconObject.gameObject;
+            }
+        } else {
+            int bestScore = -1, bestPos = -1, value;
+            for (var i = 0; i < 9; i++)
+                if (playerSeeds[i] == Seed.Empty) {
+                    playerSeeds[i] = Seed.O;
+                    value = Minimax(Seed.X, playerSeeds, -1000, +1000);
+                    playerSeeds[i] = Seed.Empty;
+                    if (bestScore < value) {
+                        bestScore = value;
+                        bestPos = i;
+                    }
+                }
+
+            if (bestPos > -1) {
+                var button = cellButtons[bestPos];
+                var iconObject = Instantiate(hintIcon, button.transform)
+                    .GetComponent<RectTransform>();
+                lastHintIcon = iconObject.gameObject;
+            }
         }
     }
 }
