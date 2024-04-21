@@ -4,18 +4,11 @@ using DG.Tweening;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Random = System.Random;
 
 public enum Seed{
     X,
     O,
-    Empty
-}
-
-public enum Level{
-    Three = 3,
-    Six = 6,
-    Nine = 9,
-    Eleven = 11,
     Empty
 }
 
@@ -27,12 +20,17 @@ public class GameController : MonoBehaviour{
     [SerializeField] private Button cell;
     [SerializeField] private Transform[] table;
     [SerializeField] private SetUpXOController setUpXoController;
+    [SerializeField] private DifficullyController difficullyController;
+
     [SerializeField] private GameObject hintIcon;
     [SerializeField] private Button[] functionButtons;
+    [SerializeField] private GameObject[] WinPopUps;
+    [SerializeField] private GameObject WinPopUp;
+    [SerializeField] private GameObject backdrop;
 
 
     public bool withAI;
-    public int currMode;
+    public int currLevelDifficulty;
 
     public List<bool> isWinCampaignList = new();
     public Seed currentPlayer;
@@ -48,10 +46,14 @@ public class GameController : MonoBehaviour{
 
     private Vector2 pos1, pos2;
 
+    private int turnOCount;
+
     private void Start(){
         cellButtonIndexList = new LinkedList<int>();
         iconObjectList = new LinkedList<RectTransform>();
         cellButtons = new List<Button>();
+        currLevelDifficulty = difficullyController.currDifficultyLevel;
+        turnOCount = 0;
 
         //gen table
         AutoSpawnCell();
@@ -81,10 +83,12 @@ public class GameController : MonoBehaviour{
 
             if (IsWon(currentPlayer)) {
                 //Check whether the is current player has won
+                DisplayWinPopUp(WinPopUps[0]);
                 Debug.Log("X Won!");
                 DisableGridButtons();
             } else if (IsDraw()) {
                 //check the game is draw
+                DisplayWinPopUp(WinPopUps[1]);
                 Debug.Log("It's Draw!");
                 DisableGridButtons();
             } else {
@@ -104,7 +108,7 @@ public class GameController : MonoBehaviour{
             } else if (IsDraw()) {
                 //check the game is draw
                 Destroy(lastButtonBorder);
-
+                DisplayWinPopUp(WinPopUps[1]);
                 Debug.Log("It's Draw!");
                 DisableGridButtons();
             } else {
@@ -124,14 +128,21 @@ public class GameController : MonoBehaviour{
         //After we have waited 5 seconds print the time again.
         EnableFunctionButtons();
         if (currentPlayer == Seed.O && withAI) {
-            AIPlay();
+            if (currLevelDifficulty == 0 && (turnOCount == 0 || turnOCount == 1))
+                RandomPositionForO();
+            else if (currLevelDifficulty == 1 && turnOCount == 0)
+                RandomPositionForO();
+            else
+                AIPlay();
             if (IsWon(currentPlayer)) {
                 Destroy(lastButtonBorder);
+                DisplayWinPopUp(WinPopUps[2]);
                 Debug.Log("AI Won!");
                 DisableGridButtons();
             } else if (IsDraw()) {
                 //check the game is draw
                 Destroy(lastButtonBorder);
+                DisplayWinPopUp(WinPopUps[1]);
                 Debug.Log("It's Draw!");
                 DisableGridButtons();
             } else {
@@ -167,9 +178,41 @@ public class GameController : MonoBehaviour{
         if (bestPos > -1) {
             var button = cellButtons[bestPos];
             DisplayIcon(bestPos, button);
+            turnOCount++;
             playerSeeds[bestPos] = currentPlayer;
         }
     }
+
+    private void RandomPositionForO(){
+        int bestScore = -1, bestPos = -1, value;
+        var positionEmptyList = new List<int>();
+
+        for (var i = 0; i < 9; i++)
+            if (playerSeeds[i] == Seed.Empty) {
+                positionEmptyList.Add(i);
+                playerSeeds[i] = Seed.O;
+                value = Minimax(Seed.X, playerSeeds, -1000, +1000);
+                playerSeeds[i] = Seed.Empty;
+
+                if (bestScore < value) {
+                    bestScore = value;
+                    bestPos = i;
+                }
+            }
+
+        if (bestPos > -1) {
+            positionEmptyList.Remove(bestScore);
+            var rnd = new Random();
+            var randIndex = rnd.Next(positionEmptyList.Count);
+            var randomPosition = positionEmptyList[randIndex];
+            bestPos = randomPosition;
+            var button = cellButtons[bestPos];
+            DisplayIcon(bestPos, button);
+            turnOCount++;
+            playerSeeds[bestPos] = currentPlayer;
+        }
+    }
+
 
     private void DisplayIcon(int index, Button button){
         //instantiate iconObject in a button
@@ -275,6 +318,12 @@ public class GameController : MonoBehaviour{
             isDraw = true;
 
         return isDraw;
+    }
+
+    private void DisplayWinPopUp(GameObject winPopUp){
+        backdrop.SetActive(true);
+        WinPopUp.SetActive(true);
+        winPopUp.SetActive(true);
     }
 
     private void SwitchTurn(){

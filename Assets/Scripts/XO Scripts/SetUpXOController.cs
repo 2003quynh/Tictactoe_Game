@@ -25,7 +25,7 @@ public class SetUpXOController : MonoBehaviour{
 
     public int currLevel; //0: 3; 1: 6; 2: 9; 3: 11
     public int currMode; //0: PC; 1: PP; 2: Campaign
-    private int difficultyLevel; //0: easy; 1: medium; 2: hard
+    public int difficultyLevel; //0: easy; 1: medium; 2: hard
     private bool isDifficultyShow;
     private Vector3 targetPos;
 
@@ -101,8 +101,7 @@ public class SetUpXOController : MonoBehaviour{
             difficultPopup.gameObject.SetActive(true);
             backdrop.SetActive(true);
             difficultPopup.DOScale(Vector3.one, scaleDuration).From(Vector3.zero);
-        }
-        else {
+        } else {
             TurnOffPopUpDifficulty();
         }
     }
