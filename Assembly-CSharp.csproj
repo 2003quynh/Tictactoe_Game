@@ -51,6 +51,7 @@
     <Compile Include="Assets\Scripts\XO Scripts\LoadingScene.cs" />
     <Compile Include="Assets\Simple Scroll-Snap\Examples\Example 3 (Slot Machine)\Scripts\SlotMachine.cs" />
     <Compile Include="Assets\Simple Scroll-Snap\Examples\Example 5 (Dynamic Content)\Scripts\DynamicContent.cs" />
+    <Compile Include="Assets\Scripts\WinPopUpController.cs" />
     <Compile Include="Assets\Simple Scroll-Snap\Examples\_Common\Scripts\ExpandInformation.cs" />
     <Compile Include="Assets\Scripts\CampaignData.cs" />
     <Compile Include="Assets\Scripts\MenuController.cs" />

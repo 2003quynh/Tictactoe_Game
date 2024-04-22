@@ -12,14 +12,16 @@ public class CampaignController : MonoBehaviour{
 
 
     [SerializeField] private GameController gameController;
+    public int lastIndexUnlocked;
     private readonly List<GameObject> campaignListLocked = new();
     private readonly List<GameObject> campaignListUnlocked = new();
 
     private void Start(){
+        gameController.isCampaign = true;
         for (var i = 0; i < campaignList.Count; i++) {
             if (i == 0) {
                 isUnlockedList.Add(true);
-
+                lastIndexUnlocked = 0;
                 var iconObject = Instantiate(campaignList[i].prefabButtonLevelUnlocked,
                     campaignList[i].position.transform);
                 iconObject.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
@@ -29,6 +31,10 @@ public class CampaignController : MonoBehaviour{
             isUnlockedList.Add(false);
         }
 
+        SetUpCampaign();
+    }
+
+    public void SetUpCampaign(){
         for (var i = 0; i < campaignList.Count; i++) {
             var index = i;
             var campaign = campaignList[index];
@@ -58,6 +64,8 @@ public class CampaignController : MonoBehaviour{
         CampaignScreen.SetActive(false);
         XOPlayScreen.SetActive(true);
 
+        //destroy all children
+        // foreach (Transform child in XOPlayScreen.transform) Destroy(child.gameObject);
         XOLevelTables[campaignList[index].level].SetActive(true);
         LevelBanes[campaignList[index].level].SetActive(true);
 

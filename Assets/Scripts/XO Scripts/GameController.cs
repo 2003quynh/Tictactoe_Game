@@ -16,7 +16,7 @@ public class GameController : MonoBehaviour{
     [SerializeField] private GameObject[] turnIcons; // 0 is X, 1 is O 
     [SerializeField] private GameObject turnBorder; // 0 is X, 1 is O 
     [SerializeField] private GameObject[] highlights; // 0 is X, 1 is O 
-    [SerializeField] private int startTurn;
+    [SerializeField] public int startTurn;
     [SerializeField] private Button cell;
     [SerializeField] private Transform[] table;
     [SerializeField] private SetUpXOController setUpXoController;
@@ -24,19 +24,26 @@ public class GameController : MonoBehaviour{
 
     [SerializeField] private GameObject hintIcon;
     [SerializeField] private Button[] functionButtons;
-    [SerializeField] private GameObject[] WinPopUps;
-    [SerializeField] private GameObject WinPopUp;
+    [SerializeField] private GameObject[] WinPopUps, WinPopUpCampaigns;
+    [SerializeField] private GameObject WinPopUp, WinPopUpCampaign;
+
     [SerializeField] private GameObject backdrop;
+    // [SerializeField] private GameObject XOPlayScreen;
 
 
     public bool withAI;
+    public bool isCampaign;
+
     public int currLevelDifficulty;
 
     public List<bool> isWinCampaignList = new();
     public Seed currentPlayer;
-    private readonly Seed[] playerSeeds = new Seed[9];
+    public Seed[] playerSeeds = new Seed[9];
+    public List<Button> cellButtons;
+
+    public int turnOCount;
+
     private LinkedList<int> cellButtonIndexList;
-    private List<Button> cellButtons;
 
     private int currLevel;
     private LinkedList<RectTransform> iconObjectList;
@@ -46,9 +53,8 @@ public class GameController : MonoBehaviour{
 
     private Vector2 pos1, pos2;
 
-    private int turnOCount;
-
     private void Start(){
+        // XOPlayScreenOrigin = XOPlayScreen;
         cellButtonIndexList = new LinkedList<int>();
         iconObjectList = new LinkedList<RectTransform>();
         cellButtons = new List<Button>();
@@ -83,12 +89,17 @@ public class GameController : MonoBehaviour{
 
             if (IsWon(currentPlayer)) {
                 //Check whether the is current player has won
-                DisplayWinPopUp(WinPopUps[0]);
+                if (isCampaign) DisplayWinPopUp(WinPopUpCampaigns[0]);
+                else DisplayWinPopUp(WinPopUps[0]);
                 Debug.Log("X Won!");
+
                 DisableGridButtons();
             } else if (IsDraw()) {
                 //check the game is draw
-                DisplayWinPopUp(WinPopUps[1]);
+                if (isCampaign) DisplayWinPopUp(WinPopUpCampaigns[1]);
+                else
+                    DisplayWinPopUp(WinPopUps[1]);
+
                 Debug.Log("It's Draw!");
                 DisableGridButtons();
             } else {
@@ -108,7 +119,8 @@ public class GameController : MonoBehaviour{
             } else if (IsDraw()) {
                 //check the game is draw
                 Destroy(lastButtonBorder);
-                DisplayWinPopUp(WinPopUps[1]);
+                if (isCampaign) DisplayWinPopUp(WinPopUpCampaigns[1]);
+                else DisplayWinPopUp(WinPopUps[1]);
                 Debug.Log("It's Draw!");
                 DisableGridButtons();
             } else {
@@ -136,14 +148,19 @@ public class GameController : MonoBehaviour{
                 AIPlay();
             if (IsWon(currentPlayer)) {
                 Destroy(lastButtonBorder);
-                DisplayWinPopUp(WinPopUps[2]);
+
+                if (isCampaign) DisplayWinPopUp(WinPopUpCampaigns[2]);
+                else DisplayWinPopUp(WinPopUps[2]);
                 Debug.Log("AI Won!");
+
                 DisableGridButtons();
             } else if (IsDraw()) {
                 //check the game is draw
                 Destroy(lastButtonBorder);
-                DisplayWinPopUp(WinPopUps[1]);
+                if (isCampaign) DisplayWinPopUp(WinPopUpCampaigns[1]);
+                else DisplayWinPopUp(WinPopUps[1]);
                 Debug.Log("It's Draw!");
+
                 DisableGridButtons();
             } else {
                 // can continue play the game
@@ -163,28 +180,6 @@ public class GameController : MonoBehaviour{
     //add currMode
     private void AIPlay(){
         int bestScore = -1, bestPos = -1, value;
-        for (var i = 0; i < 9; i++)
-            if (playerSeeds[i] == Seed.Empty) {
-                playerSeeds[i] = Seed.O;
-                value = Minimax(Seed.X, playerSeeds, -1000, +1000);
-                playerSeeds[i] = Seed.Empty;
-
-                if (bestScore < value) {
-                    bestScore = value;
-                    bestPos = i;
-                }
-            }
-
-        if (bestPos > -1) {
-            var button = cellButtons[bestPos];
-            DisplayIcon(bestPos, button);
-            turnOCount++;
-            playerSeeds[bestPos] = currentPlayer;
-        }
-    }
-
-    private void RandomPositionForO(){
-        int bestScore = -1, bestPos = -1, value;
         var positionEmptyList = new List<int>();
 
         for (var i = 0; i < 9; i++)
@@ -201,7 +196,54 @@ public class GameController : MonoBehaviour{
             }
 
         if (bestPos > -1) {
+            var button = cellButtons[bestPos];
+            DisplayIcon(bestPos, button);
+            turnOCount++;
+            playerSeeds[bestPos] = currentPlayer;
+        } else {
+            var rnd = new Random();
+            var randIndex = rnd.Next(positionEmptyList.Count);
+            var randomPosition = positionEmptyList[randIndex];
+            bestPos = randomPosition;
+            var button = cellButtons[bestPos];
+            DisplayIcon(bestPos, button);
+            turnOCount++;
+            playerSeeds[bestPos] = currentPlayer;
+        }
+    }
+
+    private void RandomPositionForO(){
+        Debug.Log("Random Position For O");
+        int bestScore = -1, bestPos = -1, value;
+        var positionEmptyList = new List<int>();
+
+        for (var i = 0; i < 9; i++)
+            if (playerSeeds[i] == Seed.Empty) {
+                positionEmptyList.Add(i);
+                playerSeeds[i] = Seed.O;
+                value = Minimax(Seed.X, playerSeeds, -1000, +1000);
+                playerSeeds[i] = Seed.Empty;
+
+                if (bestScore < value) {
+                    bestScore = value;
+                    bestPos = i;
+                }
+            }
+
+        Debug.Log("List Position Empty: " + positionEmptyList.Count);
+        Debug.Log("BestPos: " + bestPos);
+
+        if (bestPos > -1) {
             positionEmptyList.Remove(bestScore);
+            var rnd = new Random();
+            var randIndex = rnd.Next(positionEmptyList.Count);
+            var randomPosition = positionEmptyList[randIndex];
+            bestPos = randomPosition;
+            var button = cellButtons[bestPos];
+            DisplayIcon(bestPos, button);
+            turnOCount++;
+            playerSeeds[bestPos] = currentPlayer;
+        } else {
             var rnd = new Random();
             var randIndex = rnd.Next(positionEmptyList.Count);
             var randomPosition = positionEmptyList[randIndex];
@@ -321,8 +363,12 @@ public class GameController : MonoBehaviour{
     }
 
     private void DisplayWinPopUp(GameObject winPopUp){
+        turnOCount = 0;
         backdrop.SetActive(true);
-        WinPopUp.SetActive(true);
+        if (isCampaign) WinPopUpCampaign.SetActive(true);
+        else
+            WinPopUp.SetActive(true);
+
         winPopUp.SetActive(true);
     }
 
@@ -349,7 +395,7 @@ public class GameController : MonoBehaviour{
         return empty;
     }
 
-    private void Highlight(){
+    public void Highlight(){
         if (currentPlayer == Seed.X) {
             highlights[1].SetActive(false);
             highlights[0].SetActive(true);
@@ -367,6 +413,7 @@ public class GameController : MonoBehaviour{
     public void Replay(){
         currentPlayer = startTurn == 0 ? Seed.X : Seed.O;
         Highlight();
+        turnOCount = 0;
         for (var i = 0; i < playerSeeds.Length; i++) playerSeeds[i] = Seed.Empty;
 
         foreach (var button in cellButtons) {

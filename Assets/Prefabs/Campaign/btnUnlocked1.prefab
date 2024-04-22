@@ -110,7 +110,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -3.1, y: 29.5}
-  m_SizeDelta: {x: 25, y: 85}
+  m_SizeDelta: {x: 55, y: 85}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5576271719275001731
 CanvasRenderer:
@@ -140,7 +140,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 5945555c929a14f4f98ba65e9a8b87dc, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7eb1bfd049dc462409ba434b91d5257d, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -238,7 +238,7 @@ GameObject:
   - component: {fileID: 660248684472852825}
   - component: {fileID: 7578681008635202666}
   m_Layer: 0
-  m_Name: btnUnlockedTime
+  m_Name: btnUnlocked1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

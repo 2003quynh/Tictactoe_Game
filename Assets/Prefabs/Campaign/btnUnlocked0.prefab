@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4954148586216037368}
   - component: {fileID: 4360953677376567454}
   m_Layer: 0
-  m_Name: btnUnlockedNormal
+  m_Name: btnUnlocked0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
