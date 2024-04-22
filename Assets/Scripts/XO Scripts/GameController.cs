@@ -427,8 +427,10 @@ public class GameController : MonoBehaviour{
 
     public void Return(){
         if (cellButtonIndexList.Count == 0) {
+            functionButtons[0].interactable = false;
             Debug.Log("Can not return!");
         } else {
+            functionButtons[0].interactable = true;
             Destroy(lastButtonBorder);
             playerSeeds[cellButtonIndexList.Last.Value] = Seed.Empty;
             Destroy(iconObjectList.Last.Value.gameObject);
@@ -442,8 +444,8 @@ public class GameController : MonoBehaviour{
             cellButtons[cellButtonIndexList.Last.Value].interactable = true;
             cellButtonIndexList.RemoveLast();
             iconObjectList.RemoveLast();
-
-            lastButtonBorder = Instantiate(turnBorder, cellButtons[cellButtonIndexList.Last.Value].transform);
+            if (cellButtonIndexList.Count > 0)
+                lastButtonBorder = Instantiate(turnBorder, cellButtons[cellButtonIndexList.Last.Value].transform);
         }
     }
 
