@@ -17,14 +17,15 @@ public class WinPopUpController : MonoBehaviour{
         foreach (var popup in WinPopUps) popup.SetActive(false);
         foreach (var popup in WinPopUpCampaigns) popup.SetActive(false);
 
-        gameController.currentPlayer = gameController.startTurn == 0 ? Seed.X : Seed.O;
-        gameController.Highlight();
-        for (var i = 0; i < gameController.playerSeeds.Length; i++) gameController.playerSeeds[i] = Seed.Empty;
+        // gameController.currentPlayer = gameController.startTurn == 0 ? Seed.X : Seed.O;
+        // gameController.Highlight();
+        // for (var i = 0; i < gameController.playerSeeds.Length; i++) gameController.playerSeeds[i] = Seed.Empty;
 
-        foreach (var button in gameController.cellButtons) {
-            button.interactable = true;
-            foreach (Transform child in button.transform) Destroy(child.gameObject);
-        }
+        // foreach (var button in gameController.cellButtons) {
+        //     button.interactable = true;
+        //     foreach (Transform child in button.transform) Destroy(child.gameObject);
+        // }
+        gameController.Replay();
 
         Debug.Log("Game replay.");
     }
@@ -52,7 +53,7 @@ public class WinPopUpController : MonoBehaviour{
         CampaignScreen.SetActive(true);
         campaignController.SetUpCampaign();
 
-        gameController.currentPlayer = gameController.startTurn == 0 ? Seed.X : Seed.O;
+        gameController.currentPlayer = Seed.X;
         gameController.Highlight();
         for (var i = 0; i < gameController.playerSeeds.Length; i++) gameController.playerSeeds[i] = Seed.Empty;
 
