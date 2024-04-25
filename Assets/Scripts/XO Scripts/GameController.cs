@@ -24,9 +24,16 @@ public class GameController : MonoBehaviour{
     [SerializeField] private DifficullyController difficullyController;
     [SerializeField] private GameObject[] hintIcons;
     [SerializeField] private Button[] functionButtons;
-    [SerializeField] private GameObject[] WinPopUps, WinPopUpCampaigns;
-    [SerializeField] private GameObject WinPopUp, WinPopUpCampaign;
+    [SerializeField] private GameObject[] winPopUps, winPopUpCampaigns;
+    [SerializeField] private GameObject winPopUp, winPopUpCampaign;
     [SerializeField] private GameObject backdrop;
+
+    [SerializeField] private GameObject[] winningLines;
+    [SerializeField] private RateUsController rateUsController;
+
+    [SerializeField] private GameObject XPos;
+    [SerializeField] private GameObject OPos;
+  
 
     public bool withAI;
     public bool isCampaign;
@@ -50,19 +57,19 @@ public class GameController : MonoBehaviour{
     private GameObject lastHintIcon;
     private bool aiFirst;
     private bool invokeOnce;
-
     private float delay;
-    float timer;
+    private float timer;
+    
 
     private void Start(){
         Init();
 
         //set AI is X or O
-        int randAIRole = UnityEngine.Random.Range(0, 1); // 0: x, 1: o
+        int randAIRole = UnityEngine.Random.Range(0, 20); // 0: x, 1: o
         Debug.Log("randAIRole: " + randAIRole);
 
         //set start AI or people        
-        aiFirst = randAIRole == 1 && withAI;
+        aiFirst = randAIRole%2 == 1 && withAI;
         
         if(aiFirst){
          invokeOnce = true;
@@ -95,6 +102,8 @@ public class GameController : MonoBehaviour{
         currentPlayer = startTurn;
         turnAICount = 0;
         delay = 0.5f;
+      
+        
 
         //gen table
         AutoSpawnCell();
@@ -104,7 +113,18 @@ public class GameController : MonoBehaviour{
         for (var i = 0; i < playerSeeds.Length; i++) playerSeeds[i] = Seed.Empty;
     }
 
-  private void Update()
+    private void DrawWinLine(int indexWin){
+        winningLines[indexWin].SetActive(true); 
+        winningLines[indexWin].transform.DOScale(Vector2.one, (float)0.3).From(Vector2.zero);;     
+    }
+
+    private void DeactiveWinLine(){
+        for(int i = 0; i < winningLines.Length; i++){
+            winningLines[i].SetActive(false);      
+        }
+    }
+
+    private void Update()
     {
         // SwitchTurn();
         if (withAI && invokeOnce)
@@ -117,6 +137,7 @@ public class GameController : MonoBehaviour{
                 SwitchTurn();
                 invokeOnce = false;
                 timer = 0;
+                
             }            
         }
     }
@@ -131,14 +152,16 @@ public class GameController : MonoBehaviour{
 
             if (IsWon(currentPlayer)) {
                 //Check whether the current player has won
+                // WhenWon(currentPlayer);
+
                 Destroy(lastButtonBorder);
                 Debug.Log("X Won!");
                 DisableGridButtons();
             } else if (IsDraw()) {
                 //check the game is draw
                 Destroy(lastButtonBorder);
-                if (isCampaign) DisplayWinPopUp(WinPopUpCampaigns[1]);
-                else DisplayWinPopUp(WinPopUps[1]);
+                if (isCampaign) DisplayWinPopUp(winPopUpCampaigns[1]);
+                else DisplayWinPopUp(winPopUps[1]);
                 Debug.Log("It's Draw!");
                 DisableGridButtons();
             } else {
@@ -152,14 +175,16 @@ public class GameController : MonoBehaviour{
 
             if (IsWon(currentPlayer)) {
                 //Check whether the current player has won
+                // WhenWon(currentPlayer);
+
                 Destroy(lastButtonBorder);
                 Debug.Log("O Won!");
                 DisableGridButtons();
             } else if (IsDraw()) {
                 //check the game is draw
                 Destroy(lastButtonBorder);
-                if (isCampaign) DisplayWinPopUp(WinPopUpCampaigns[1]);
-                else DisplayWinPopUp(WinPopUps[1]);
+                if (isCampaign) DisplayWinPopUp(winPopUpCampaigns[1]);
+                else DisplayWinPopUp(winPopUps[1]);
                 Debug.Log("It's Draw!");
                 DisableGridButtons();
             } else {
@@ -168,22 +193,23 @@ public class GameController : MonoBehaviour{
             }
         }
 
-        if(currentPlayer == Seed.O && withAI){
+        if(currentPlayer == Seed.O && aiFirst){
             DisplayIcon(index, button);
             playerSeeds[index] = Seed.O;
 
             if (IsWon(currentPlayer)) {
+                WhenWon(currentPlayer);
                 //Check whether the is current player has won
-                if (isCampaign) DisplayWinPopUp(WinPopUpCampaigns[0]);
-                else DisplayWinPopUp(WinPopUps[0]);
+                if (isCampaign) DisplayWinPopUp(winPopUpCampaigns[0]);
+                else DisplayWinPopUp(winPopUps[0]);
                 Debug.Log("Person Won!");
 
                 DisableGridButtons();
             } else if (IsDraw()) {
                 //check the game is draw
-                if (isCampaign) DisplayWinPopUp(WinPopUpCampaigns[1]);
+                if (isCampaign) DisplayWinPopUp(winPopUpCampaigns[1]);
                 else
-                    DisplayWinPopUp(WinPopUps[1]);
+                    DisplayWinPopUp(winPopUps[1]);
 
                 Debug.Log("It's Draw!");
                 DisableGridButtons();
@@ -199,16 +225,18 @@ public class GameController : MonoBehaviour{
 
             if (IsWon(currentPlayer)) {
                 //Check whether the is current player has won
-                if (isCampaign) DisplayWinPopUp(WinPopUpCampaigns[0]);
-                else DisplayWinPopUp(WinPopUps[0]);
+                WhenWon(currentPlayer);
+                
+                if (isCampaign) DisplayWinPopUp(winPopUpCampaigns[0]);
+                else DisplayWinPopUp(winPopUps[0]);
                 Debug.Log("Person Won!");
 
                 DisableGridButtons();
             } else if (IsDraw()) {
                 //check the game is draw
-                if (isCampaign) DisplayWinPopUp(WinPopUpCampaigns[1]);
+                if (isCampaign) DisplayWinPopUp(winPopUpCampaigns[1]);
                 else
-                    DisplayWinPopUp(WinPopUps[1]);
+                    DisplayWinPopUp(winPopUps[1]);
 
                 Debug.Log("It's Draw!");
                 DisableGridButtons();
@@ -239,16 +267,18 @@ public class GameController : MonoBehaviour{
 
         if (IsWon(currentPlayer)) {
             Destroy(lastButtonBorder);
-            if (isCampaign) DisplayWinPopUp(WinPopUpCampaigns[2]);
-            else DisplayWinPopUp(WinPopUps[2]);
+            WhenWon(currentPlayer);
+
+            if (isCampaign) DisplayWinPopUp(winPopUpCampaigns[2]);
+            else DisplayWinPopUp(winPopUps[2]);
             Debug.Log("AI Won!");
 
             DisableGridButtons();
         } else if (IsDraw()) {
             //check the game is draw
             Destroy(lastButtonBorder);
-            if (isCampaign) DisplayWinPopUp(WinPopUpCampaigns[1]);
-            else DisplayWinPopUp(WinPopUps[1]);
+            if (isCampaign) DisplayWinPopUp(winPopUpCampaigns[1]);
+            else DisplayWinPopUp(winPopUps[1]);
             Debug.Log("It's Draw!");
 
             DisableGridButtons();
@@ -324,16 +354,16 @@ public class GameController : MonoBehaviour{
         }
         if (IsWon(currentPlayer)) {
             Destroy(lastButtonBorder);
-            if (isCampaign) DisplayWinPopUp(WinPopUpCampaigns[2]);
-            else DisplayWinPopUp(WinPopUps[2]);
+            if (isCampaign) DisplayWinPopUp(winPopUpCampaigns[2]);
+            else DisplayWinPopUp(winPopUps[2]);
             Debug.Log("AI Won!");
 
             DisableGridButtons();
         } else if (IsDraw()) {
             //check the game is draw
             Destroy(lastButtonBorder);
-            if (isCampaign) DisplayWinPopUp(WinPopUpCampaigns[1]);
-            else DisplayWinPopUp(WinPopUps[1]);
+            if (isCampaign) DisplayWinPopUp(winPopUpCampaigns[1]);
+            else DisplayWinPopUp(winPopUps[1]);
             Debug.Log("It's Draw!");
 
             DisableGridButtons();
@@ -380,18 +410,18 @@ public class GameController : MonoBehaviour{
             turnAICount++;
             playerSeeds[bestPos] = currentPlayer;
         }
-        if (IsWon(currentPlayer)) {
+        if (IsWon(currentPlayer)) {                
             Destroy(lastButtonBorder);
-            if (isCampaign) DisplayWinPopUp(WinPopUpCampaigns[2]);
-            else DisplayWinPopUp(WinPopUps[2]);
+            if (isCampaign) DisplayWinPopUp(winPopUpCampaigns[2]);
+            else DisplayWinPopUp(winPopUps[2]);
             Debug.Log("AI Won!");
 
             DisableGridButtons();
         } else if (IsDraw()) {
             //check the game is draw
             Destroy(lastButtonBorder);
-            if (isCampaign) DisplayWinPopUp(WinPopUpCampaigns[1]);
-            else DisplayWinPopUp(WinPopUps[1]);
+            if (isCampaign) DisplayWinPopUp(winPopUpCampaigns[1]);
+            else DisplayWinPopUp(winPopUps[1]);
             Debug.Log("It's Draw!");
 
             DisableGridButtons();
@@ -576,14 +606,67 @@ public class GameController : MonoBehaviour{
             if ((playerSeeds[winConditions[i, 0]] == currPlayer) &
                 (playerSeeds[winConditions[i, 1]] == currPlayer) &
                 (playerSeeds[winConditions[i, 2]] == currPlayer)) {
+                hasWon = true;                
+            }        
+        
+        return hasWon;
+    }
+
+    private void WhenWon(Seed currPlayer){
+        var hasWon = false;
+
+        var winConditions = new int[8, 3] {
+            { 0, 1, 2 }, { 3, 4, 5 }, { 6, 7, 8 },
+            { 0, 3, 6 }, { 1, 4, 7 }, { 2, 5, 8 },
+            { 0, 4, 8 }, { 2, 4, 6 }
+        };
+
+        // check win conditions
+        for (var i = 0; i < 8; i++)
+            if ((playerSeeds[winConditions[i, 0]] == currPlayer) &
+                (playerSeeds[winConditions[i, 1]] == currPlayer) &
+                (playerSeeds[winConditions[i, 2]] == currPlayer)) {
                 hasWon = true;
+                Debug.Log("Win Condition: " + winConditions[i, 1]);
+                switch (winConditions[i, 1]) {                    
+                    case 1:                        
+                        DrawWinLine(2);
+                        break;
+                    case 3:                        
+                        DrawWinLine(5);
+                        break;    
+                    case 4:
+                        switch(winConditions[i, 0]){
+                            case 0:                            
+                                DrawWinLine(7);
+                                break;
+                            case 1:                            
+                                DrawWinLine(4);
+                                break;
+                            case 2:                                
+                                DrawWinLine(6);
+                                break;
+                            case 3:                                
+                                DrawWinLine(1);
+                                break;
+                        } 
+                        break;                       
+                    case 5:                        
+                        DrawWinLine(3);
+                        break;
+                    case 7:                        
+                        DrawWinLine(0);
+                        break;                    
+                }
                 break;
             }
         if(hasWon){
             DisableFunctionButtons();
-        }
-        return hasWon;
+            rateUsController.TurnOnRateUSPopUp();
+        }       
+        
     }
+
 
     private bool IsDraw(){
         bool XWon, OWon, anyEmpty;
@@ -609,9 +692,9 @@ public class GameController : MonoBehaviour{
     private void DisplayWinPopUp(GameObject winPopUp){
         turnAICount = 0;
         backdrop.SetActive(true);
-        if (isCampaign) WinPopUpCampaign.SetActive(true);
+        if (isCampaign) winPopUpCampaign.SetActive(true);
         else
-            WinPopUp.SetActive(true);
+            this.winPopUp.SetActive(true);
 
         winPopUp.SetActive(true);
     }
@@ -643,13 +726,14 @@ public class GameController : MonoBehaviour{
         if (currentPlayer == Seed.X) {
             highlights[1].SetActive(false);
             highlights[0].SetActive(true);
-            highlights[0].transform.DOMove(highlights[0].transform.position, 0.3f)
-                .From(highlights[1].transform.position);
+            
+            highlights[0].transform.DOMove(XPos.transform.position, 0.3f)
+                .From(OPos.transform.position);
         } else if (currentPlayer == Seed.O) {
             highlights[0].SetActive(false);
             highlights[1].SetActive(true);
-            highlights[1].transform.DOMove(highlights[1].transform.position, 0.3f)
-                .From(highlights[0].transform.position);
+            highlights[1].transform.DOMove(OPos.transform.position, 0.3f)
+                .From(XPos.transform.position);
         }
     }
 
@@ -662,6 +746,8 @@ public class GameController : MonoBehaviour{
         currentPlayer = startTurn;
         Highlight();
         turnAICount = 0;
+        DeactiveWinLine();
+
         for (var i = 0; i < playerSeeds.Length; i++) playerSeeds[i] = Seed.Empty;
 
         foreach (var button in cellButtons) {

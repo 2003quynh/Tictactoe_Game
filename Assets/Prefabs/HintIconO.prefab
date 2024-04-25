@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 960303652462922970}
   - component: {fileID: 6269897453969905979}
   - component: {fileID: 4867807473046682503}
+  - component: {fileID: 2602847997976863112}
   m_Layer: 0
   m_Name: HintIconO
   m_TagString: Untagged
@@ -184,3 +185,18 @@ MonoBehaviour:
   optionalScrambleMode: 0
   optionalShakeRandomnessMode: 0
   optionalString: 
+--- !u!114 &2602847997976863112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4302731718837906824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 40306178, guid: aa0b1eebb5db27a419fa4564bbe5c9c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  preset: 0
+  onEnableBehaviour: 0
+  onDisableBehaviour: 0
