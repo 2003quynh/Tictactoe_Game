@@ -246,6 +246,7 @@ public class GameController : MonoBehaviour{
 
             if (IsWon(currentPlayer)) {
                 DisplayWinLine(currentPlayer);
+                OpenRateUs();
                 //Check whether the is current player has won
                 if (isCampaign) DisplayWinPopUp(winPopUpCampaigns[0]);
                 else DisplayWinPopUp(winPopUps[0]);
@@ -273,7 +274,8 @@ public class GameController : MonoBehaviour{
 
             if (IsWon(currentPlayer)) {
                 //Check whether the is current player has won
-                DisplayWinLine(currentPlayer);                
+                DisplayWinLine(currentPlayer);  
+                OpenRateUs();              
                 if (isCampaign) DisplayWinPopUp(winPopUpCampaigns[0]);
                 else DisplayWinPopUp(winPopUps[0]);
                 Debug.Log("Person Won!");
