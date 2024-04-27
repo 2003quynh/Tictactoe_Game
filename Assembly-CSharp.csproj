@@ -67,6 +67,7 @@
     <Compile Include="Assets\Scripts\XO Scripts\GameController.cs" />
     <Compile Include="Assets\Simple Scroll-Snap\Examples\Example 6 (3D Shape Selection)\Scripts\Rotator.cs" />
     <Compile Include="Assets\Scripts\XO Scripts\LoadingScene.cs" />
+    <Compile Include="Assets\Scripts\XO Scripts\XOManagement.cs" />
     <Compile Include="Assets\Simple Scroll-Snap\Examples\Example 3 (Slot Machine)\Scripts\SlotMachine.cs" />
     <Compile Include="Assets\Simple Scroll-Snap\Examples\Example 5 (Dynamic Content)\Scripts\DynamicContent.cs" />
     <Compile Include="Assets\Scripts\WinPopUpController.cs" />

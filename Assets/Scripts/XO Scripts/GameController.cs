@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -31,8 +33,7 @@ public class GameController : MonoBehaviour{
     [SerializeField] private RateUsController rateUsController;
 
     [SerializeField] private GameObject XPos;
-    [SerializeField] private GameObject OPos;
-  
+    [SerializeField] private GameObject OPos;  
 
     public bool withAI;
     public bool isCampaign;
@@ -41,7 +42,7 @@ public class GameController : MonoBehaviour{
 
     public List<bool> isWinCampaignList = new();
     public Seed currentPlayer;
-    public Seed[] playerSeeds = new Seed[9];
+    public Seed[] playerSeeds;
     public List<Button> cellButtons;
 
     public int turnAICount;
@@ -57,10 +58,18 @@ public class GameController : MonoBehaviour{
     private bool aiFirst;
     private bool invokeOnce;
     private float delay;
-    private float timer;        
+    private float timer;  
+          
 
     private void Start(){
         Init();
+
+        for(int i = 0; i < winConditions.Count; i++){
+            Debug.Log("winConditions: " + i);
+            for(int j = 0; j < winConditions[i].Length; j++){
+                Debug.Log("winCondition: " + "["+i+"]" + "["+j+"]"+winConditions[i][j]);
+            }
+        }
 
         //set AI is X or O
         int randAIRole = UnityEngine.Random.Range(0, 20); // 0: x, 1: o
@@ -86,15 +95,14 @@ public class GameController : MonoBehaviour{
         cellButtonIndexList = new LinkedList<int>();
         iconObjectList = new LinkedList<RectTransform>();
         cellButtons = new List<Button>();
+        
         currLevelDifficulty = difficullyController.currDifficultyLevel;        
         startTurn = Seed.X;
         currentPlayer = startTurn;
         turnAICount = 0; //count how many AI turns to set random for AI
         turnXCount = 0; //count how many X turns to set interactable for return button
-        delay = 0.5f;
-      
+        delay = 0.5f;            
         
-
         //gen table
         AutoSpawnCell();
         Return();
@@ -127,10 +135,10 @@ public class GameController : MonoBehaviour{
                 Debug.Log("Win Condition: " + winConditions[i, 1]);
                 switch (winConditions[i, 1]) {                    
                     case 1:                        
-                        DrawWinLine(2);
+                        DrawWinLine(0);
                         break;
                     case 3:                        
-                        DrawWinLine(5);
+                        DrawWinLine(3);
                         break;    
                     case 4:
                         switch(winConditions[i, 0]){
@@ -149,10 +157,10 @@ public class GameController : MonoBehaviour{
                         } 
                         break;                       
                     case 5:                        
-                        DrawWinLine(3);
+                        DrawWinLine(4);
                         break;
                     case 7:                        
-                        DrawWinLine(0);
+                        DrawWinLine(2);
                         break;                    
                 }
                 break;
@@ -606,25 +614,59 @@ public class GameController : MonoBehaviour{
 
         return beta;
     }
+    private List<int[]>  winConditions= new List<int[]>();
+    public List<int[]> WinCondition(int tableSize, int lineLength){
+        for(int row = 0; row < tableSize; row++ ){
+            for(int startCol = 0; startCol < tableSize - lineLength + 1; startCol++){
+                int[] condition = new int[lineLength];
+                for(int i = 0; i < lineLength; i++){
+                    condition[i] = row * tableSize + startCol + i;
+                }
+                winConditions.Add(condition);
+            }
+        }   
 
-    private bool IsWon(Seed currPlayer){
-        var hasWon = false;
+        for(int col = 0; col < tableSize; col++ ){
+            for(int startRow = 0; startRow < tableSize - lineLength + 1; startRow++){
+                int[] condition = new int[lineLength];
+                for(int i = 0; i < lineLength; i++){
+                    condition[i] = (startRow+i)*tableSize+col;
+                }
+                winConditions.Add(condition);
+            }
+        }   
+    
+        for (int row = 0; row <= tableSize - lineLength; row++) {
+            for (int col = 0; col <= tableSize - lineLength; col++) {
+                int[] condition = new int[lineLength];
+                for (int i = 0; i < lineLength; i++) {
+                    condition[i] = (row + i) * tableSize + col + i;
+                }
+                winConditions.Add(condition);
+            }
+        }
 
-        var winConditions = new int[8, 3] {
-            { 0, 1, 2 }, { 3, 4, 5 }, { 6, 7, 8 },
-            { 0, 3, 6 }, { 1, 4, 7 }, { 2, 5, 8 },
-            { 0, 4, 8 }, { 2, 4, 6 }
-        };
+        // Diagonal lines (Minor Diagonal)
+        for (int row = 0; row <= tableSize - lineLength; row++) {
+            for (int col = lineLength - 1; col < tableSize; col++) {
+                int[] condition = new int[lineLength];
+                for (int i = 0; i < lineLength; i++) {
+                    condition[i] = (row + i) * tableSize + col - i;
+                }
+                winConditions.Add(condition);
+            }
+    
+        }
+        return winConditions;
+    }
 
-        // check win conditions
-        for (var i = 0; i < 8; i++)
-            if ((playerSeeds[winConditions[i, 0]] == currPlayer) &
-                (playerSeeds[winConditions[i, 1]] == currPlayer) &
-                (playerSeeds[winConditions[i, 2]] == currPlayer)) {
-                hasWon = true;                
-            }        
-        
-        return hasWon;
+    public bool IsWon(Seed currPlayer){
+        foreach (var condition in winConditions) {           
+            if (condition.All(index => playerSeeds[index] == currPlayer)) {
+                return true;
+            }            
+        }
+        return false;
     }
         
     private bool IsDraw(){
@@ -642,9 +684,9 @@ public class GameController : MonoBehaviour{
         if ((XWon == false) & (OWon == false) & (anyEmpty == false))
             isDraw = true;
 
-        if(isDraw){
-            DisableFunctionButtons();
-        }
+        // if(isDraw){
+        //     DisableFunctionButtons();
+        // }
         return isDraw;
     }
 
@@ -765,18 +807,23 @@ public class GameController : MonoBehaviour{
     private void AutoSpawnCell(){
         Debug.Log("AutoSpawnCell");
         var index = setUpXoController.currLevel;
+        var lengthWinLine = 0;
         switch (index) {
             case 0:
                 currLevel = 3;
+                lengthWinLine = 3;
                 break;
             case 1:
                 currLevel = 6;
+                lengthWinLine = 4;
                 break;
             case 2:
                 currLevel = 9;
+                lengthWinLine = 5;
                 break;
             case 3:
                 currLevel = 11;
+                lengthWinLine = 6;
                 break;
         }
 
@@ -785,6 +832,9 @@ public class GameController : MonoBehaviour{
             var item = Instantiate(cell, table[index]);
             cellButtons.Add(item);
         }
+
+        WinCondition(currLevel, lengthWinLine);
+        playerSeeds = new Seed[currLevel*currLevel];
     }
 
     public void Hint(){
@@ -829,4 +879,6 @@ public class GameController : MonoBehaviour{
             }
         }
     }
+
 }
+

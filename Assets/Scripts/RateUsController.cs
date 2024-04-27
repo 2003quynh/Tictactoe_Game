@@ -51,7 +51,7 @@ public class RateUsController : MonoBehaviour
         isRateUsShow = false;
         backdrop.SetActive(false);
         rateUsPopup.gameObject.SetActive(false);
-        DisableRatedStar()  ;
+        DisableRatedStar();
     }
 
     private void RateUs(int index, Button button){
