@@ -61,5 +61,7 @@ public class WinPopUpController : MonoBehaviour{
             button.interactable = true;
             foreach (Transform child in button.transform) Destroy(child.gameObject);
         }
+
+        gameController.DeactiveWinLine();
     }
 }

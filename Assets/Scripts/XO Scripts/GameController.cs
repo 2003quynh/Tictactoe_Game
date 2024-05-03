@@ -1,3 +1,5 @@
+
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -28,48 +30,35 @@ public class GameController : MonoBehaviour{
     [SerializeField] private GameObject[] winPopUps, winPopUpCampaigns;
     [SerializeField] private GameObject winPopUp, winPopUpCampaign;
     [SerializeField] private GameObject backdrop;
-
     [SerializeField] private GameObject[] winningLines;
     [SerializeField] private RateUsController rateUsController;
-
     [SerializeField] private GameObject XPos;
     [SerializeField] private GameObject OPos;  
 
     public bool withAI;
     public bool isCampaign;
-
     public int currLevelDifficulty;
-
     public List<bool> isWinCampaignList = new();
     public Seed currentPlayer;
     public Seed[] playerSeeds;
     public List<Button> cellButtons;
-
     public int turnAICount;
     public int turnXCount;
-
     private LinkedList<int> cellButtonIndexList;
-
     private int currLevel;
     private LinkedList<RectTransform> iconObjectList;
-
     private GameObject lastButtonBorder;
     private GameObject lastHintIcon;
     private bool aiFirst;
     private bool invokeOnce;
     private float delay;
-    private float timer;  
-          
-
+    private float timer; 
+    private int depthLength;          
+    
     private void Start(){
-        Init();
-
-        for(int i = 0; i < winConditions.Count; i++){
-            Debug.Log("winConditions: " + i);
-            for(int j = 0; j < winConditions[i].Length; j++){
-                Debug.Log("winCondition: " + "["+i+"]" + "["+j+"]"+winConditions[i][j]);
-            }
-        }
+        Debug.Log("1");
+        Init();        
+        Debug.Log("2");
 
         //set AI is X or O
         int randAIRole = UnityEngine.Random.Range(0, 20); // 0: x, 1: o
@@ -77,16 +66,24 @@ public class GameController : MonoBehaviour{
 
         //set start AI or people        
         aiFirst = randAIRole%2 == 1 && withAI;
+        aiFirst = true;
+        Debug.Log("3");
+
         
         if(aiFirst){
          invokeOnce = true;
         }
+        Debug.Log("4");
 
         if (aiFirst && invokeOnce)
         {
             Debug.Log("AI First: " + aiFirst);
             AIPlay();
+         Debug.Log("5");
+
             SwitchTurn();
+        Debug.Log("6");
+
             invokeOnce = false;
         }
     }
@@ -101,82 +98,23 @@ public class GameController : MonoBehaviour{
         currentPlayer = startTurn;
         turnAICount = 0; //count how many AI turns to set random for AI
         turnXCount = 0; //count how many X turns to set interactable for return button
-        delay = 0.5f;            
+        delay = 0.5f;   
+                
         
         //gen table
         AutoSpawnCell();
         Return();
         
         highlights[1].SetActive(false);
-        highlights[0].SetActive(true);           
+        highlights[0].SetActive(true);
         
+        for (var i = 0; i < playerSeeds.Length; i++) playerSeeds[i] = Seed.Empty;
         
         for (var i = 0; i < cellButtons.Count; i++) {
             var index = i;
             cellButtons[index].interactable = true;
             cellButtons[index].onClick.AddListener(() => { ClickGridButton(index, cellButtons[index]); });
-        }
-        
-        for (var i = 0; i < playerSeeds.Length; i++) playerSeeds[i] = Seed.Empty;
-    }
-
-    private void DisplayWinLine(Seed currPlayer){
-        var winConditions = new int[8, 3] {
-            { 0, 1, 2 }, { 3, 4, 5 }, { 6, 7, 8 },
-            { 0, 3, 6 }, { 1, 4, 7 }, { 2, 5, 8 },
-            { 0, 4, 8 }, { 2, 4, 6 }
-        };
-
-        // check win conditions
-        for (var i = 0; i < 8; i++)
-            if ((playerSeeds[winConditions[i, 0]] == currPlayer) &
-                (playerSeeds[winConditions[i, 1]] == currPlayer) &
-                (playerSeeds[winConditions[i, 2]] == currPlayer)) {
-                Debug.Log("Win Condition: " + winConditions[i, 1]);
-                switch (winConditions[i, 1]) {                    
-                    case 1:                        
-                        DrawWinLine(0);
-                        break;
-                    case 3:                        
-                        DrawWinLine(3);
-                        break;    
-                    case 4:
-                        switch(winConditions[i, 0]){
-                            case 0:                            
-                                DrawWinLine(7);
-                                break;
-                            case 1:                            
-                                DrawWinLine(4);
-                                break;
-                            case 2:                                
-                                DrawWinLine(6);
-                                break;
-                            case 3:                                
-                                DrawWinLine(1);
-                                break;
-                        } 
-                        break;                       
-                    case 5:                        
-                        DrawWinLine(4);
-                        break;
-                    case 7:                        
-                        DrawWinLine(2);
-                        break;                    
-                }
-                break;
-            }           
-        
-    }
-
-    private void DrawWinLine(int indexWin){
-        winningLines[indexWin].SetActive(true); 
-        winningLines[indexWin].transform.DOScale(Vector2.one, (float)0.3).From(Vector2.zero);;     
-    }
-
-    private void DeactiveWinLine(){
-        for(int i = 0; i < winningLines.Length; i++){
-            winningLines[i].SetActive(false);      
-        }
+        }         
     }
 
     private void Update()
@@ -206,8 +144,7 @@ public class GameController : MonoBehaviour{
             playerSeeds[index] = Seed.X;
 
             if (IsWon(currentPlayer)) {
-                //Check whether the current player has won
-                
+                //Check whether the current player has won                
                 DisplayWinLine(currentPlayer);
                 Destroy(lastButtonBorder);
                 Debug.Log("X Won!");
@@ -274,7 +211,6 @@ public class GameController : MonoBehaviour{
                 SwitchTurn();
                 invokeOnce = true;
             }
-
         } else if (currentPlayer == Seed.X && withAI) {
             DisplayIcon(index, button);
             turnXCount++;
@@ -306,15 +242,7 @@ public class GameController : MonoBehaviour{
 
         // StartCoroutine(AITurn());
     }
-   
-    private void DisableFunctionButtons(){
-        foreach (var button in functionButtons) button.interactable = false; // Disable the button
-    }
-
-    private void EnableFunctionButtons(){
-        foreach (var button in functionButtons) button.interactable = true; // Disable the button
-    }
-
+      
     //add currMode
     private void AIPlay(){
         
@@ -329,8 +257,7 @@ public class GameController : MonoBehaviour{
         else{
             if (currentPlayer == Seed.X) TurnX();
             if (currentPlayer == Seed.O) TurnO();
-        }
-        
+        }        
     }
 
     private void TurnX(){
@@ -341,25 +268,29 @@ public class GameController : MonoBehaviour{
         int bestScore = 1000, bestPos = -1, value;
         var positionEmptyList = new List<int>();
 
-        for (var i = 0; i < 9; i++)
+        for (var i = 0; i < playerSeeds.Length; i++)
             if (playerSeeds[i] == Seed.Empty) {
                 playerSeeds[i] = Seed.X;
                 positionEmptyList.Add(i);
-                value = Minimax(Seed.O, playerSeeds, -1000, +1000);
+                Debug.Log("start minimax");
+                value = Minimax(Seed.O, depthLength, playerSeeds, -1000, +1000);
+                Debug.Log("end minimax");
                 playerSeeds[i] = Seed.Empty;
                 if (bestScore > value) {
                     bestScore = value;
                     bestPos = i;
                 }
-            }
-
+            }         
+        
         if (bestPos > -1) {
+            Debug.Log("bestPos: " + bestPos);
             var button = cellButtons[bestPos];
             DisplayIcon(bestPos, button);
             turnXCount++;
             playerSeeds[bestPos] = currentPlayer;
 
-        } else {
+        }
+         else {
             var rnd = new Random();
             var randIndex = rnd.Next(positionEmptyList.Count);
             Debug.Log("positionEmptyList: " + positionEmptyList[randIndex]==null);
@@ -370,6 +301,7 @@ public class GameController : MonoBehaviour{
             turnXCount++;
             playerSeeds[bestPos] = currentPlayer;
         }
+
         if (IsWon(currentPlayer)) {
             Destroy(lastButtonBorder);
             DisplayWinLine(currentPlayer);
@@ -386,10 +318,7 @@ public class GameController : MonoBehaviour{
             Debug.Log("It's Draw!");
 
             DisableGridButtons();
-        } else {
-            // can continue play the game
-            // SwitchTurn();
-        }
+        } 
     }
 
     private void TurnO(){
@@ -400,11 +329,11 @@ public class GameController : MonoBehaviour{
         int bestScore = -1, bestPos = -1, value;
         var positionEmptyList = new List<int>();
 
-        for (var i = 0; i < 9; i++)
+        for (var i = 0; i < playerSeeds.Length; i++)
             if (playerSeeds[i] == Seed.Empty) {
                 positionEmptyList.Add(i);
                 playerSeeds[i] = Seed.O;
-                value = Minimax(Seed.X, playerSeeds, -1000, +1000);
+                value = Minimax(Seed.X, depthLength, playerSeeds, -1000, +1000);
                 playerSeeds[i] = Seed.Empty;
 
                 if (bestScore < value) {
@@ -445,9 +374,6 @@ public class GameController : MonoBehaviour{
             Debug.Log("It's Draw!");
 
             DisableGridButtons();
-        } else {
-            // can continue play the game
-            // SwitchTurn();
         }
     }
 
@@ -457,11 +383,13 @@ public class GameController : MonoBehaviour{
             int bestScore = 1000, bestPos = -1, value;
             var positionEmptyList = new List<int>();
 
-            for (var i = 0; i < 9; i++){
+            for (var i = 0; i < playerSeeds.Length; i++){
                 if (playerSeeds[i] == Seed.Empty) {
                     positionEmptyList.Add(i);
                     playerSeeds[i] = Seed.X;
-                    value = Minimax(Seed.O, playerSeeds, -1000, +1000);
+                    Debug.Log("start minimax");
+                    value = Minimax(Seed.O, depthLength, playerSeeds, -1000, +1000);
+                    Debug.Log("end minimax");
                     playerSeeds[i] = Seed.Empty;
 
                     if (bestScore > value) {
@@ -471,43 +399,33 @@ public class GameController : MonoBehaviour{
                 }
             }
             
-            Debug.Log("List Position Empty: " + positionEmptyList.Count);
-            Debug.Log("BestPos: " + bestPos);
+            // Debug.Log("List Position Empty: " + positionEmptyList.Count);
+            // Debug.Log("BestPos: " + bestPos);
 
             if (bestPos > -1) {
-                positionEmptyList.Remove(bestScore);
+                positionEmptyList.Remove(bestScore);               
+            } 
 
-                var rnd = new Random();
-                var randIndex = rnd.Next(positionEmptyList.Count);
-                var randomPosition = positionEmptyList[randIndex];
-                
-                bestPos = randomPosition;
-                var button = cellButtons[bestPos];
-                DisplayIcon(bestPos, button);
-                turnAICount++;
-                turnXCount++;
-                playerSeeds[bestPos] = currentPlayer;
-            } else {
-                var rnd = new Random();
-                var randIndex = rnd.Next(positionEmptyList.Count);
-                var randomPosition = positionEmptyList[randIndex];
+            var rnd = new Random();
+            var randIndex = rnd.Next(positionEmptyList.Count);
+            var randomPosition = positionEmptyList[randIndex];
+            
+            bestPos = randomPosition;
+            var button = cellButtons[bestPos];
+            DisplayIcon(bestPos, button);
+            turnAICount++;
+            turnXCount++;
+            playerSeeds[bestPos] = currentPlayer;
 
-                bestPos = randomPosition;
-                var button = cellButtons[bestPos];
-                DisplayIcon(bestPos, button);
-                turnAICount++;
-                turnXCount++;
-                playerSeeds[bestPos] = currentPlayer;
-            }
-        } else{
+        } else {
             int bestScore = -1, bestPos = -1, value;
             var positionEmptyList = new List<int>();
 
-            for (var i = 0; i < 9; i++){
+            for (var i = 0; i < playerSeeds.Length; i++){
                 if (playerSeeds[i] == Seed.Empty) {
                     positionEmptyList.Add(i);
                     playerSeeds[i] = Seed.O;
-                    value = Minimax(Seed.X, playerSeeds, -1000, +1000);
+                    value = Minimax(Seed.X, depthLength, playerSeeds, -1000, +1000);
                     playerSeeds[i] = Seed.Empty;
 
                     if (bestScore < value) {
@@ -517,34 +435,24 @@ public class GameController : MonoBehaviour{
                 }
             }
             
-            Debug.Log("List Position Empty: " + positionEmptyList.Count);
-            Debug.Log("BestPos: " + bestPos);
+            // Debug.Log("List Position Empty: " + positionEmptyList.Count);
+            // Debug.Log("BestPos: " + bestPos);
 
             if (bestPos > -1) {
-                positionEmptyList.Remove(bestScore);
+                positionEmptyList.Remove(bestScore);                
+            } 
+            var rnd = new Random();
+            var randIndex = rnd.Next(positionEmptyList.Count);
+            var randomPosition = positionEmptyList[randIndex];
 
-                var rnd = new Random();
-                var randIndex = rnd.Next(positionEmptyList.Count);
-                var randomPosition = positionEmptyList[randIndex];
-                
-                bestPos = randomPosition;
-                var button = cellButtons[bestPos];
-                DisplayIcon(bestPos, button);
-                turnAICount++;
-                playerSeeds[bestPos] = currentPlayer;
-            } else {
-                var rnd = new Random();
-                var randIndex = rnd.Next(positionEmptyList.Count);
-                var randomPosition = positionEmptyList[randIndex];
-
-                bestPos = randomPosition;
-                var button = cellButtons[bestPos];
-                DisplayIcon(bestPos, button);
-                turnAICount++;
-                playerSeeds[bestPos] = currentPlayer;
-            }
+            bestPos = randomPosition;
+            var button = cellButtons[bestPos];
+            DisplayIcon(bestPos, button);
+            turnAICount++;
+            playerSeeds[bestPos] = currentPlayer;
         }  
     }
+
 
     private void DisplayIcon(int index, Button button){
         //instantiate iconObject in a button
@@ -570,49 +478,78 @@ public class GameController : MonoBehaviour{
         functionButtons[0].interactable = true;
     }
 
-    private int Minimax(Seed currPlayer, Seed[] board, int alpha, int beta){
-        if (IsDraw())
+    private int Minimax(Seed currPlayer, int depth, Seed[] board, int alpha, int beta){
+        if(depth == 0 ){                       
             return 0;
+        }
+        if(turnXCount >= 2*depthLength-1){
+            if(IsWon(Seed.O))
+                return 1;
+            
+            if(IsWon(Seed.X))
+                return -1;
+            
+            if(IsDraw())
+                return 0; 
+        }
+               
+        
+        int value;
 
+        if (currPlayer == Seed.O) {
+            for (var i = 0; i < board.Length; i++)
+                if (board[i] == Seed.Empty) {
+                    board[i] = Seed.O;
+                    value = Minimax(Seed.X, depth - 1, board, alpha, beta);                    
+                    board[i] = Seed.Empty;
+                    alpha = Math.Max(alpha, value);                    
+                    if (alpha >= beta)
+                        break;
+                }
+            return alpha;
+        }
+
+        for (var i = 0; i < board.Length; i++)
+            if (board[i] == Seed.Empty) {
+                board[i] = Seed.X;
+                value = Minimax(Seed.O, depth - 1, board, alpha, beta);
+                board[i] = Seed.Empty;
+                beta = Math.Min(beta, value);
+                if (alpha >= beta)
+                    break;
+            }
+        return beta;        
+    }
+    
+    private int Negamax(Seed currPlayer, Seed[] board, int alpha, int beta){
         if (IsWon(Seed.O))
             return +1;
 
         if (IsWon(Seed.X))
             return -1;
 
-        int value;
+        if (IsDraw())
+            return 0;
 
-        if (currPlayer == Seed.O) {
-            for (var i = 0; i < 9; i++)
-                if (board[i] == Seed.Empty) {
-                    board[i] = Seed.O;
-                    value = Minimax(Seed.X, board, alpha, beta);
+        int factor = currPlayer == Seed.O ? 1 : -1;
+
+        int value = -1000;
+        Seed nextPlayer = currentPlayer == Seed.O ? Seed.X : Seed.O;
+        
+        for(var i = 0; i < board.Length; i++){
+            if (board[i] == Seed.Empty) {
+                    board[i] = currentPlayer;
+                    value = Math.Max(value, -Negamax(nextPlayer, board, -beta, -alpha));
+                    Debug.Log("value: " + value);
                     board[i] = Seed.Empty;
-
-                    if (value > alpha)
-                        alpha = value;
-
+                    alpha = Math.Max(alpha, value);                
                     if (alpha > beta)
                         break;
-                }
-
-            return alpha;
+            }           
         }
-
-        for (var i = 0; i < 9; i++)
-            if (board[i] == Seed.Empty) {
-                board[i] = Seed.X;
-                value = Minimax(Seed.O, board, alpha, beta);
-                board[i] = Seed.Empty;
-
-                if (value < beta)
-                    beta = value;
-
-                if (alpha > beta)
-                    break;
-            }
-
-        return beta;
+        
+        
+        return value == -1000 ? 0 : value * factor;
     }
     private List<int[]>  winConditions= new List<int[]>();
     public List<int[]> WinCondition(int tableSize, int lineLength){
@@ -660,12 +597,13 @@ public class GameController : MonoBehaviour{
         return winConditions;
     }
 
-    public bool IsWon(Seed currPlayer){
+    public bool IsWon(Seed currPlayer){    
         foreach (var condition in winConditions) {           
             if (condition.All(index => playerSeeds[index] == currPlayer)) {
                 return true;
             }            
         }
+        
         return false;
     }
         
@@ -684,9 +622,6 @@ public class GameController : MonoBehaviour{
         if ((XWon == false) & (OWon == false) & (anyEmpty == false))
             isDraw = true;
 
-        // if(isDraw){
-        //     DisableFunctionButtons();
-        // }
         return isDraw;
     }
 
@@ -721,7 +656,7 @@ public class GameController : MonoBehaviour{
 
     private bool IsAnyEmpty(){
         var empty = false;
-        for (var i = 0; i < 9; i++)
+        for (var i = 0; i < playerSeeds.Length; i++)
             if (playerSeeds[i] == Seed.Empty) {
                 empty = true;
                 break;
@@ -835,6 +770,7 @@ public class GameController : MonoBehaviour{
 
         WinCondition(currLevel, lengthWinLine);
         playerSeeds = new Seed[currLevel*currLevel];
+        depthLength = lengthWinLine;
     }
 
     public void Hint(){
@@ -843,7 +779,7 @@ public class GameController : MonoBehaviour{
             for (var i = 0; i < 9; i++)
                 if (playerSeeds[i] == Seed.Empty) {
                     playerSeeds[i] = Seed.X;
-                    value = Minimax(Seed.O, playerSeeds, -1000, +1000);
+                    value = Minimax(Seed.O, depthLength, playerSeeds, -1000, +1000);
                     playerSeeds[i] = Seed.Empty;
                     if (bestScore > value) {
                         bestScore = value;
@@ -863,7 +799,7 @@ public class GameController : MonoBehaviour{
             for (var i = 0; i < 9; i++)
                 if (playerSeeds[i] == Seed.Empty) {
                     playerSeeds[i] = Seed.O;
-                    value = Minimax(Seed.X, playerSeeds, -1000, +1000);
+                    value = Minimax(Seed.X, depthLength, playerSeeds, -1000, +1000);
                     playerSeeds[i] = Seed.Empty;
                     if (bestScore < value) {
                         bestScore = value;
@@ -878,6 +814,73 @@ public class GameController : MonoBehaviour{
                 lastHintIcon = iconObject.gameObject;
             }
         }
+    }
+
+    private void DisplayWinLine(Seed currPlayer){       
+        var winConditions = new int[8, 3] {
+            { 0, 1, 2 }, { 3, 4, 5 }, { 6, 7, 8 },
+            { 0, 3, 6 }, { 1, 4, 7 }, { 2, 5, 8 },
+            { 0, 4, 8 }, { 2, 4, 6 }
+        };
+
+        // check win conditions
+        for (var i = 0; i < 8; i++)
+            if ((playerSeeds[winConditions[i, 0]] == currPlayer) &
+                (playerSeeds[winConditions[i, 1]] == currPlayer) &
+                (playerSeeds[winConditions[i, 2]] == currPlayer)) {
+                Debug.Log("Win Condition: " + winConditions[i, 1]);
+                switch (winConditions[i, 1]) {                    
+                    case 1:                        
+                        DrawWinLine(0);
+                        break;
+                    case 3:                        
+                        DrawWinLine(3);
+                        break;    
+                    case 4:
+                        switch(winConditions[i, 0]){
+                            case 0:                            
+                                DrawWinLine(7);
+                                break;
+                            case 1:                            
+                                DrawWinLine(4);
+                                break;
+                            case 2:                                
+                                DrawWinLine(6);
+                                break;
+                            case 3:                                
+                                DrawWinLine(1);
+                                break;
+                        } 
+                        break;                       
+                    case 5:                        
+                        DrawWinLine(5);
+                        break;
+                    case 7:                        
+                        DrawWinLine(2);
+                        break;                    
+                }
+                break;
+            }           
+        
+    }
+
+    private void DrawWinLine(int indexWin){
+        winningLines[indexWin].SetActive(true); 
+        winningLines[indexWin].transform.DOScale(Vector2.one, (float)0.3).From(Vector2.zero);;     
+    }
+
+    public void DeactiveWinLine(){
+        for(int i = 0; i < winningLines.Length; i++){
+            winningLines[i].SetActive(false);      
+        }
+    }
+
+    private void DisableFunctionButtons(){
+        foreach (var button in functionButtons) button.interactable = false; // Disable the button
+    }
+
+    private void EnableFunctionButtons(){
+        foreach (var button in functionButtons) button.interactable = true; // Disable the button
     }
 
 }
