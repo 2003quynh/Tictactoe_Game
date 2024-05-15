@@ -23,12 +23,11 @@ public class GameController : MonoBehaviour{
     [SerializeField] private Seed startTurn;
     [SerializeField] private Button cell;
     [SerializeField] private Transform[] table;
-    [SerializeField] private SetUpXOController setUpXoController;
+    
     [SerializeField] private DifficullyController difficullyController;
     [SerializeField] private GameObject[] hintIcons;
     [SerializeField] private Button[] functionButtons;
     [SerializeField] private GameObject[] winPopUps, winPopUpCampaigns, winningLines;
-    [SerializeField] private GameObject winPopUp, winPopUpCampaign, backdrop;    
     [SerializeField] private RateUsController rateUsController;
     [SerializeField] private GameObject XPos, OPos;
     
@@ -51,9 +50,13 @@ public class GameController : MonoBehaviour{
     private bool invokeOnce;
     private float delay;
     private float timer; 
-    private int depthLength;   
+    private int depthLength;  
 
-    private SetUpXOController setUpXOController;
+    
+
+    [SerializeField]private SetUpXOController setUpXOController;
+    [SerializeField]private WinPopUpController winPopUpController;
+    [SerializeField]private WinPopUpCampaignController winPopUpCampaignController;
    
     
     private void Start(){       
@@ -88,9 +91,16 @@ public class GameController : MonoBehaviour{
         currentPlayer = startTurn;
         turnAICount = 0; //count how many AI turns to set random for AI
         turnXCount = 0; //count how many X turns to set interactable for return button
-        delay = 0.5f;   
-        Debug.Log("setUpXOController.WithAI" + setUpXOController.WithAI);
-        withAI = setUpXOController.WithAI;
+        delay = 0.5f; 
+        
+        if(setUpXOController == null){
+            Debug.LogError("Set UP XO null");
+        } else{
+            Debug.Log("setUpXOController.WithAI" + setUpXOController.WithAI);
+            withAI = setUpXOController.WithAI;
+            isCampaign = setUpXOController.IsCampaign;
+        }
+        
         
         //gen table
         AutoSpawnCell();
@@ -607,15 +617,7 @@ public class GameController : MonoBehaviour{
         }
     }
 
-    private void DisplayWinPopUp(GameObject winPopUp){
-        turnAICount = 0;
-        backdrop.SetActive(true);
-        if (isCampaign) winPopUpCampaign.SetActive(true);
-        else
-            this.winPopUp.SetActive(true);
-
-        winPopUp.SetActive(true);
-    }
+    
 
     private void SwitchTurn(){
         //change the current player after each turn
@@ -661,6 +663,7 @@ public class GameController : MonoBehaviour{
     }
 
     public void Replay(){
+        winPopUpController.CloseWinPopUp();
         currentPlayer = startTurn;
         Highlight();
         turnAICount = 0;
@@ -717,7 +720,7 @@ public class GameController : MonoBehaviour{
 
     private void AutoSpawnCell(){
         Debug.Log("AutoSpawnCell");
-        var index = setUpXoController.currLevel;
+        var index = setUpXOController.CurrLevel;
         var lengthWinLine = 0;
         switch (index) {
             case 0:
@@ -792,6 +795,14 @@ public class GameController : MonoBehaviour{
         }
     }
 
+    public void DisplayWinPopUp(GameObject winPopUp){
+        turnAICount = 0;
+        if(isCampaign){
+            winPopUpCampaignController.DisplayWinCampaignPopUp(winPopUp);
+        } else{
+            winPopUpController.DisplayWinPopUp(winPopUp);
+        }
+    }
     private void DisplayWinLine(Seed currPlayer){       
         var winConditions = new int[8, 3] {
             { 0, 1, 2 }, { 3, 4, 5 }, { 6, 7, 8 },

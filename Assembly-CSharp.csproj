@@ -79,6 +79,7 @@
     <Compile Include="Assets\Scripts\XO Scripts\SetUpXOController.cs" />
     <Compile Include="Assets\Scripts\SettingPopUpController.cs" />
     <Compile Include="Assets\Scripts\TicTacToeController.cs" />
+    <Compile Include="Assets\Scripts\WinPopUpCampaignController.cs" />
     <Compile Include="Assets\Simple Scroll-Snap\Examples\Example 1 (macOS Finder)\Scripts\FileUI.cs" />
   </ItemGroup>
   <ItemGroup>
