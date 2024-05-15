@@ -52,6 +52,8 @@ public class GameController : MonoBehaviour{
     private float delay;
     private float timer; 
     private int depthLength;   
+
+    private SetUpXOController setUpXOController;
    
     
     private void Start(){       
@@ -87,7 +89,8 @@ public class GameController : MonoBehaviour{
         turnAICount = 0; //count how many AI turns to set random for AI
         turnXCount = 0; //count how many X turns to set interactable for return button
         delay = 0.5f;   
-                
+        Debug.Log("setUpXOController.WithAI" + setUpXOController.WithAI);
+        withAI = setUpXOController.WithAI;
         
         //gen table
         AutoSpawnCell();
