@@ -1,16 +1,18 @@
-using DanielLochner.Assets.SimpleScrollSnap;
-using DG.Tweening;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using DanielLochner.Assets.SimpleScrollSnap;
 
-public class SetUpXOController : MonoBehaviour{    
+
+public class SetUpXOMenuController : MonoBehaviour
+{
     [SerializeField] private GameObject[] XOScreens, XOLevelTables, LevelBanes;    
     [SerializeField] private SimpleScrollSnap simpleScrollSnap;
     [SerializeField] private DifficullyController difficultyController;
 
     private int currLevel; //0: 3; 1: 6; 2: 9; 3: 11
-    public int currMode; //0: PC; 1: PP; 2: Campaign
-    public int difficultyLevel; //0: easy; 1: medium; 2: hard
+    private int currMode; //0: PC; 1: PP; 2: Campaign
+    private int difficultyLevel; //0: easy; 1: medium; 2: hard
 
     private bool withAI, _isCampaign;
 
@@ -88,9 +90,8 @@ public class SetUpXOController : MonoBehaviour{
 
     public void ConvertCampaignMode(){
         _isCampaign = true;
+        withAI = true;
         XOScreens[0].gameObject.SetActive(false);
         XOScreens[2].gameObject.SetActive(true);
     }
-
-    
 }

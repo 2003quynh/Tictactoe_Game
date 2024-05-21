@@ -1151,8 +1151,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1484373743}
-        m_TargetAssemblyTypeName: MenuController, Assembly-CSharp
+      - m_Target: {fileID: 579397709}
+        m_TargetAssemblyTypeName: SettingPopUpController, Assembly-CSharp
         m_MethodName: TurnOnPopUpSetting
         m_Mode: 1
         m_Arguments:
@@ -1321,25 +1321,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1484373743}
-        m_TargetAssemblyTypeName: MenuController, Assembly-CSharp
+      - m_Target: {fileID: 579397709}
+        m_TargetAssemblyTypeName: SettingPopUpController, Assembly-CSharp
         m_MethodName: TurnOnPopUpSetting
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 11500000, guid: c4c1a71662fb2144aa57ac420e221017, type: 3}
-        m_TargetAssemblyTypeName: MenuController, Assembly-CSharp
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -1948,7 +1936,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 136028248}
-  - component: {fileID: 136028247}
   m_Layer: 0
   m_Name: LoadingScene
   m_TagString: Untagged
@@ -1956,22 +1943,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
---- !u!114 &136028247
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 136028246}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c1eba14ee57b014eb9957af2ffd2fc6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  loadingScreen: {fileID: 1736476227}
-  mainMenu: {fileID: 1608999790}
-  loadingBarFill: {fileID: 1666859589}
-  sceneId: 0
 --- !u!4 &136028248
 Transform:
   m_ObjectHideFlags: 0
@@ -3753,7 +3724,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 572249834}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SetUpXOController, Assembly-CSharp
         m_MethodName: Next
         m_Mode: 1
@@ -4450,8 +4421,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1484373743}
-        m_TargetAssemblyTypeName: MenuController, Assembly-CSharp
+      - m_Target: {fileID: 579397709}
+        m_TargetAssemblyTypeName: SettingPopUpController, Assembly-CSharp
         m_MethodName: ChangeVibrationState
         m_Mode: 1
         m_Arguments:
@@ -4769,8 +4740,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1484373743}
-        m_TargetAssemblyTypeName: MenuController, Assembly-CSharp
+      - m_Target: {fileID: 579397709}
+        m_TargetAssemblyTypeName: SettingPopUpController, Assembly-CSharp
         m_MethodName: ChangeVibrationState
         m_Mode: 1
         m_Arguments:
@@ -10058,6 +10029,7 @@ RectTransform:
   - {fileID: 1324365957}
   - {fileID: 819901129}
   - {fileID: 600316780}
+  - {fileID: 890241834}
   m_Father: {fileID: 6175038}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -10065,6 +10037,61 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &392143662
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 392143663}
+  - component: {fileID: 392143664}
+  m_Layer: 5
+  m_Name: TicTacToeController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &392143663
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 392143662}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1753613088}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &392143664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 392143662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e92922e913ec0b4587afbe5cf16e1e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainMenu: {fileID: 1608999791}
+  tictactoeMenu: {fileID: 786154599}
+  btnPvsC: {fileID: 1884728807}
+  btnPvsP: {fileID: 1410314709}
+  btnPvsCPosition: {x: 0, y: 0, z: 0}
+  btnPvsPPosition: {x: 0, y: -198, z: 0}
+  moveDuration: 0.3
 --- !u!1 &402265187
 GameObject:
   m_ObjectHideFlags: 0
@@ -12179,7 +12206,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 572249832}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f71864d698f2c441b26eb997da4165d, type: 3}
+  m_Script: {fileID: 11500000, guid: 20e7110b4a2a2dd44b36bc0304453f8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   XOScreens:
@@ -12196,20 +12223,8 @@ MonoBehaviour:
   - {fileID: 49969543}
   - {fileID: 2110590599}
   - {fileID: 300773638}
-  gameController: {fileID: 2029000994}
-  maxLevel: 3
   simpleScrollSnap: {fileID: 1328625882}
-  difficultPopup: {fileID: 24283081}
-  scaleDuration: 0.3
-  difficultyButton:
-  - {fileID: 1935038010}
-  - {fileID: 162031647}
-  - {fileID: 2027537359}
   difficultyController: {fileID: 1596985316}
-  backdrop: {fileID: 381459111}
-  currLevel: 0
-  currMode: 0
-  difficultyLevel: 0
 --- !u!1 &572660720
 GameObject:
   m_ObjectHideFlags: 0
@@ -12292,8 +12307,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1484373743}
-        m_TargetAssemblyTypeName: MenuController, Assembly-CSharp
+      - m_Target: {fileID: 579397709}
+        m_TargetAssemblyTypeName: SettingPopUpController, Assembly-CSharp
         m_MethodName: ChangeSoundState
         m_Mode: 1
         m_Arguments:
@@ -12342,6 +12357,63 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 572660720}
   m_CullTransparentMesh: 1
+--- !u!1 &579397707
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 579397708}
+  - component: {fileID: 579397709}
+  m_Layer: 5
+  m_Name: SettingPopUpController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &579397708
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 579397707}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1801669760}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &579397709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 579397707}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef3044df5abe5354d94a4de72ea69c5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scaleDuration: 0.3
+  backdrop: {fileID: 381459111}
+  settingPopup: {fileID: 1801669760}
+  sounds:
+  - {fileID: 572660720}
+  - {fileID: 1006194868}
+  vibrations:
+  - {fileID: 364251068}
+  - {fileID: 344564439}
 --- !u!1 &580913752
 GameObject:
   m_ObjectHideFlags: 0
@@ -23357,7 +23429,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 572249834}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SetUpXOController, Assembly-CSharp
         m_MethodName: Previous
         m_Mode: 1
@@ -26246,6 +26318,64 @@ MonoBehaviour:
   m_Spacing: {x: -625, y: -625}
   m_Constraint: 1
   m_ConstraintCount: 3
+--- !u!1 &890241833
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 890241834}
+  - component: {fileID: 890241835}
+  m_Layer: 5
+  m_Name: WinPopUpCampaignController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &890241834
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 890241833}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 391288195}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &890241835
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 890241833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f5d6756ab261f7478fd92872d65a516, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  backdrop: {fileID: 381459111}
+  gameController: {fileID: 2029000994}
+  xoPlayScreen: {fileID: 2070835215}
+  campaignScreen: {fileID: 469358809}
+  winPopUpCampaignScreen: {fileID: 0}
+  winPopUpCampaigns:
+  - {fileID: 1324365956}
+  - {fileID: 819901128}
+  - {fileID: 600316779}
+  campaignController: {fileID: 1706528918}
 --- !u!1 &900039765
 GameObject:
   m_ObjectHideFlags: 0
@@ -26628,8 +26758,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 572249834}
-        m_TargetAssemblyTypeName: SetUpXOController, Assembly-CSharp
+      - m_Target: {fileID: 1596985316}
+        m_TargetAssemblyTypeName: DifficullyController, Assembly-CSharp
         m_MethodName: TurnOffPopUpDifficulty
         m_Mode: 1
         m_Arguments:
@@ -32014,8 +32144,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1484373743}
-        m_TargetAssemblyTypeName: MenuController, Assembly-CSharp
+      - m_Target: {fileID: 579397709}
+        m_TargetAssemblyTypeName: SettingPopUpController, Assembly-CSharp
         m_MethodName: TurnOnPopUpSetting
         m_Mode: 1
         m_Arguments:
@@ -32606,8 +32736,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1484373743}
-        m_TargetAssemblyTypeName: MenuController, Assembly-CSharp
+      - m_Target: {fileID: 579397709}
+        m_TargetAssemblyTypeName: SettingPopUpController, Assembly-CSharp
         m_MethodName: ChangeSoundState
         m_Mode: 1
         m_Arguments:
@@ -33085,7 +33215,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 572249834}
-        m_TargetAssemblyTypeName: SetUpXOController, Assembly-CSharp
+        m_TargetAssemblyTypeName: SetUpXOMenuController, Assembly-CSharp
         m_MethodName: ConvertModes
         m_Mode: 1
         m_Arguments:
@@ -33292,7 +33422,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2029000994}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: GameController, Assembly-CSharp
         m_MethodName: Hint
         m_Mode: 1
@@ -33959,22 +34089,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a3f562c7b4e3bd4292fa260305a353f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameController: {fileID: 2029000994}
-  WinPopUp: {fileID: 1362374619}
-  WinPopUpCampaign: {fileID: 391288194}
   backdrop: {fileID: 381459111}
-  HomePage: {fileID: 1608999790}
-  XOPlayScreen: {fileID: 2070835215}
-  CampaignScreen: {fileID: 469358809}
-  WinPopUps:
+  winPopUpScreen: {fileID: 1362374619}
+  winPopUps:
   - {fileID: 368036601}
   - {fileID: 1438402457}
   - {fileID: 1219464688}
-  WinPopUpCampaigns:
-  - {fileID: 1324365956}
-  - {fileID: 819901128}
-  - {fileID: 600316779}
-  campaignController: {fileID: 1706528918}
 --- !u!1 &1120066470
 GameObject:
   m_ObjectHideFlags: 0
@@ -34651,8 +34771,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1110685118}
-        m_TargetAssemblyTypeName: WinPopUpController, Assembly-CSharp
+      - m_Target: {fileID: 890241835}
+        m_TargetAssemblyTypeName: WinPopUpCampaignController, Assembly-CSharp
         m_MethodName: Next
         m_Mode: 1
         m_Arguments:
@@ -35483,8 +35603,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1110685118}
-        m_TargetAssemblyTypeName: WinPopUpController, Assembly-CSharp
+      - m_Target: {fileID: 2029000994}
+        m_TargetAssemblyTypeName: GameController, Assembly-CSharp
         m_MethodName: Replay
         m_Mode: 1
         m_Arguments:
@@ -35828,8 +35948,8 @@ MonoBehaviour:
   m_ChildAlignment: 4
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 79, y: 79}
-  m_Spacing: {x: 12, y: 12}
+  m_CellSize: {x: 80, y: 80}
+  m_Spacing: {x: 10, y: 10}
   m_Constraint: 1
   m_ConstraintCount: 11
 --- !u!114 &1329484712
@@ -35952,8 +36072,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1484373743}
-        m_TargetAssemblyTypeName: MenuController, Assembly-CSharp
+      - m_Target: {fileID: 579397709}
+        m_TargetAssemblyTypeName: SettingPopUpController, Assembly-CSharp
         m_MethodName: TurnOffPopUpSetting
         m_Mode: 1
         m_Arguments:
@@ -42724,23 +42844,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f82bd1f39fcc2bc4cacee16c00dc8d14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  settingPopup: {fileID: 1801669760}
   game:
   - {fileID: 786154598}
-  mainMenu: {fileID: 1608999791}
-  sound:
-  - {fileID: 572660720}
-  - {fileID: 1006194868}
-  vibration:
-  - {fileID: 364251068}
-  - {fileID: 344564439}
-  btnPvsC: {fileID: 1884728807}
-  btnPvsP: {fileID: 1410314709}
-  backdrop: {fileID: 381459111}
-  btnPvsCPosition: {x: 2, y: 0, z: 0}
-  btnPvsPPosition: {x: 2, y: -198, z: 0}
-  scaleDuration: 0.3
-  moveDuration: 0.3
 --- !u!1 &1488207967
 GameObject:
   m_ObjectHideFlags: 0
@@ -42902,7 +43007,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 572249834}
-        m_TargetAssemblyTypeName: SetUpXOController, Assembly-CSharp
+        m_TargetAssemblyTypeName: SetUpXOMenuController, Assembly-CSharp
         m_MethodName: ClickOnPCMode
         m_Mode: 1
         m_Arguments:
@@ -43037,8 +43142,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 572249834}
-        m_TargetAssemblyTypeName: SetUpXOController, Assembly-CSharp
-        m_MethodName: ConvertPPMode
+        m_TargetAssemblyTypeName: SetUpXOMenuController, Assembly-CSharp
+        m_MethodName: ClickOnPPMode
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -43958,8 +44063,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1110685118}
-        m_TargetAssemblyTypeName: WinPopUpController, Assembly-CSharp
+      - m_Target: {fileID: 890241835}
+        m_TargetAssemblyTypeName: WinPopUpCampaignController, Assembly-CSharp
         m_MethodName: Next
         m_Mode: 1
         m_Arguments:
@@ -44091,8 +44196,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1110685118}
-        m_TargetAssemblyTypeName: WinPopUpController, Assembly-CSharp
+      - m_Target: {fileID: 2029000994}
+        m_TargetAssemblyTypeName: GameController, Assembly-CSharp
         m_MethodName: Replay
         m_Mode: 1
         m_Arguments:
@@ -44272,7 +44377,9 @@ MonoBehaviour:
   - {fileID: 1926238455}
   - {fileID: 402265188}
   - {fileID: 1608948603}
-  currDifficultyLevel: 0
+  backdrop: {fileID: 381459111}
+  difficultPopup: {fileID: 24283081}
+  scaleDuration: 0.3
 --- !u!1 &1598716270
 GameObject:
   m_ObjectHideFlags: 0
@@ -44356,8 +44463,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1110685118}
-        m_TargetAssemblyTypeName: WinPopUpController, Assembly-CSharp
+      - m_Target: {fileID: 2029000994}
+        m_TargetAssemblyTypeName: GameController, Assembly-CSharp
         m_MethodName: Replay
         m_Mode: 1
         m_Arguments:
@@ -45673,37 +45780,37 @@ MonoBehaviour:
     position: {fileID: 1544577681}
   - idLevel: 3
     level: 0
-    prefabButtonLevelLocked: {fileID: 1163252074784021733, guid: 3a8f97bcf7bdee949a83ce1ff78dd091, type: 3}
+    prefabButtonLevelLocked: {fileID: 1163252074784021733, guid: 1f914bdb5b85b2a45a3a6170afe8091e, type: 3}
     prefabButtonLevelUnlocked: {fileID: 244298760010739705, guid: 4ed747da9c57bcf4993ddbb9590c517d, type: 3}
     position: {fileID: 117778265}
   - idLevel: 4
     level: 0
-    prefabButtonLevelLocked: {fileID: 8663660380947434563, guid: 57a63e907f0e56548a4cb6dafa1c72f3, type: 3}
+    prefabButtonLevelLocked: {fileID: 1163252074784021733, guid: 1f914bdb5b85b2a45a3a6170afe8091e, type: 3}
     prefabButtonLevelUnlocked: {fileID: 6384750502653326156, guid: 153434067e66e9e4fafe2ac73dec32eb, type: 3}
     position: {fileID: 1282959355}
   - idLevel: 5
     level: 0
-    prefabButtonLevelLocked: {fileID: 1163252074784021733, guid: 3a8f97bcf7bdee949a83ce1ff78dd091, type: 3}
+    prefabButtonLevelLocked: {fileID: 8663660380947434563, guid: 7996be3a47e065744a4e133fc08f2381, type: 3}
     prefabButtonLevelUnlocked: {fileID: 244298760010739705, guid: dad0cc54f8d56424880b8d24d9e2ad23, type: 3}
     position: {fileID: 1803310082}
   - idLevel: 6
     level: 0
-    prefabButtonLevelLocked: {fileID: 8663660380947434563, guid: 57a63e907f0e56548a4cb6dafa1c72f3, type: 3}
+    prefabButtonLevelLocked: {fileID: 1163252074784021733, guid: 2e001482b9d334b47a802980e6d2d511, type: 3}
     prefabButtonLevelUnlocked: {fileID: 6384750502653326156, guid: c2b268dbecb8d864fb3e2675d58940d8, type: 3}
     position: {fileID: 126482035}
   - idLevel: 7
     level: 0
-    prefabButtonLevelLocked: {fileID: 8663660380947434563, guid: 57a63e907f0e56548a4cb6dafa1c72f3, type: 3}
+    prefabButtonLevelLocked: {fileID: 1163252074784021733, guid: 2e001482b9d334b47a802980e6d2d511, type: 3}
     prefabButtonLevelUnlocked: {fileID: 6384750502653326156, guid: c2b268dbecb8d864fb3e2675d58940d8, type: 3}
     position: {fileID: 1039083018}
   - idLevel: 8
     level: 0
-    prefabButtonLevelLocked: {fileID: 8663660380947434563, guid: 57a63e907f0e56548a4cb6dafa1c72f3, type: 3}
+    prefabButtonLevelLocked: {fileID: 8663660380947434563, guid: a61ea28ffac7ba3458f869c07eff7fb3, type: 3}
     prefabButtonLevelUnlocked: {fileID: 6384750502653326156, guid: c2b268dbecb8d864fb3e2675d58940d8, type: 3}
     position: {fileID: 711715986}
   - idLevel: 9
     level: 0
-    prefabButtonLevelLocked: {fileID: 8663660380947434563, guid: 57a63e907f0e56548a4cb6dafa1c72f3, type: 3}
+    prefabButtonLevelLocked: {fileID: 8663660380947434563, guid: a61ea28ffac7ba3458f869c07eff7fb3, type: 3}
     prefabButtonLevelUnlocked: {fileID: 6384750502653326156, guid: c2b268dbecb8d864fb3e2675d58940d8, type: 3}
     position: {fileID: 175918863}
   - idLevel: 10
@@ -45726,6 +45833,8 @@ MonoBehaviour:
     prefabButtonLevelLocked: {fileID: 8663660380947434563, guid: 57a63e907f0e56548a4cb6dafa1c72f3, type: 3}
     prefabButtonLevelUnlocked: {fileID: 6384750502653326156, guid: c2b268dbecb8d864fb3e2675d58940d8, type: 3}
     position: {fileID: 799277857}
+  isUnlockedList: 
+  lastIndexUnlocked: 0
   XOPlayScreen: {fileID: 2070835215}
   CampaignScreen: {fileID: 469358809}
   XOLevelTables:
@@ -45738,9 +45847,7 @@ MonoBehaviour:
   - {fileID: 49969543}
   - {fileID: 2110590599}
   - {fileID: 300773638}
-  isUnlockedList: 
   gameController: {fileID: 2029000994}
-  lastIndexUnlocked: 0
 --- !u!1 &1715279215
 GameObject:
   m_ObjectHideFlags: 0
@@ -46229,6 +46336,7 @@ RectTransform:
   - {fileID: 170777526}
   - {fileID: 448669625}
   - {fileID: 741550166}
+  - {fileID: 392143663}
   m_Father: {fileID: 2098250497}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -46280,8 +46388,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1484373743}
-        m_TargetAssemblyTypeName: MenuController, Assembly-CSharp
+      - m_Target: {fileID: 392143664}
+        m_TargetAssemblyTypeName: TicTacToeController, Assembly-CSharp
         m_MethodName: OpenTicTacToeGame
         m_Mode: 1
         m_Arguments:
@@ -46819,8 +46927,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1484373743}
-        m_TargetAssemblyTypeName: MenuController, Assembly-CSharp
+      - m_Target: {fileID: 579397709}
+        m_TargetAssemblyTypeName: SettingPopUpController, Assembly-CSharp
         m_MethodName: TurnOnPopUpSetting
         m_Mode: 1
         m_Arguments:
@@ -47012,6 +47120,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1204833472}
+  - {fileID: 579397708}
   m_Father: {fileID: 6175038}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -59246,7 +59355,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2029000994}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: GameController, Assembly-CSharp
         m_MethodName: Return
         m_Mode: 1
@@ -59553,8 +59662,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2029000992}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -21.405626, y: 600.49786, z: 4.7618976}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -59569,7 +59678,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2029000992}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00506d1f3b9275e43851bb1a060941c1, type: 3}
+  m_Script: {fileID: 11500000, guid: 5c3a3971505462b418d467d59a13af91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   turnIcons:
@@ -59586,8 +59695,6 @@ MonoBehaviour:
   - {fileID: 497937120}
   - {fileID: 735036918}
   - {fileID: 1329484710}
-  - {fileID: 2070835216}
-  setUpXoController: {fileID: 572249834}
   difficullyController: {fileID: 1596985316}
   hintIcons:
   - {fileID: 4302731718837906824, guid: 53db07a36e3453849b594b67c4244694, type: 3}
@@ -59603,9 +59710,6 @@ MonoBehaviour:
   - {fileID: 1324365956}
   - {fileID: 819901128}
   - {fileID: 600316779}
-  winPopUp: {fileID: 1362374619}
-  winPopUpCampaign: {fileID: 391288194}
-  backdrop: {fileID: 381459111}
   winningLines:
   - {fileID: 2055795596}
   - {fileID: 1847478463}
@@ -59615,15 +59719,17 @@ MonoBehaviour:
   - {fileID: 304984927}
   - {fileID: 445558245}
   - {fileID: 1784225360}
-  rateUsController: {fileID: 1846113127}
   XPos: {fileID: 317606938}
   OPos: {fileID: 1747104902}
-  withAI: 1
+  setUpXOController: {fileID: 572249834}
+  winPopUpController: {fileID: 1110685118}
+  winPopUpCampaignController: {fileID: 890241835}
+  rateUsController: {fileID: 1846113127}
+  withAI: 0
   isCampaign: 0
-  currLevelDifficulty: 0
   isWinCampaignList: 
   currentPlayer: 0
-  playerSeeds: 000000000000000000000000000000000000000000000000000000000000000000000000
+  playerSeeds: 
   cellButtons: []
   turnAICount: 0
   turnXCount: 0
@@ -60203,8 +60309,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 572249834}
-        m_TargetAssemblyTypeName: SetUpXOController, Assembly-CSharp
-        m_MethodName: ClickOnCampaignMode
+        m_TargetAssemblyTypeName: SetUpXOMenuController, Assembly-CSharp
+        m_MethodName: ConvertCampaignMode
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -60907,8 +61013,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1110685118}
-        m_TargetAssemblyTypeName: WinPopUpController, Assembly-CSharp
+      - m_Target: {fileID: 2029000994}
+        m_TargetAssemblyTypeName: GameController, Assembly-CSharp
         m_MethodName: Replay
         m_Mode: 1
         m_Arguments:

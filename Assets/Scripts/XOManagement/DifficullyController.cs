@@ -10,12 +10,12 @@ public class DifficullyController : MonoBehaviour{
     [SerializeField] private RectTransform difficultPopup;
     [SerializeField] private float scaleDuration;
 
-
-    public int currDifficultyLevel;
+    private int currDifficultyLevel;
+    public int CurrDifficultyLevel{get => currDifficultyLevel; set => currDifficultyLevel = value;}
     private bool isDifficultyShow;
 
     private void Start(){
-        currDifficultyLevel = 0;
+        CurrDifficultyLevel = 0;
         highlights[0].gameObject.SetActive(true);
         for (var i = 0; i < difficultButtons.Length; i++) {
             var index = i;
@@ -24,13 +24,13 @@ public class DifficullyController : MonoBehaviour{
     }
 
     private void ChooseDifficultyMode(int index){
-        if (currDifficultyLevel != index) TurnOffHighlight();
-        currDifficultyLevel = index;
+        if (CurrDifficultyLevel != index) TurnOffHighlight();
+        CurrDifficultyLevel = index;
         highlights[index].gameObject.SetActive(true);
     }
 
     private void TurnOffHighlight(){
-        highlights[currDifficultyLevel].gameObject.SetActive(false);
+        highlights[CurrDifficultyLevel].gameObject.SetActive(false);
     }
 
     public void TurnOnPopUpDifficulty(){

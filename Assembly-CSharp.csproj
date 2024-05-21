@@ -59,27 +59,27 @@
     <UnityVersion>2022.3.16f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
+    <Analyzer Include="C:\Users\user\.vscode\extensions\visualstudiotoolsforunity.vstuc-1.0.1\Analyzers\Microsoft.Unity.Analyzers.dll" />
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\2022.3.16f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.SourceGenerators.dll" />
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\2022.3.16f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\CampaignController.cs" />
-    <Compile Include="Assets\Scripts\XO Scripts\GameController.cs" />
+    <Compile Include="Assets\Scripts\XOManagement\RateUsController.cs" />
+    <Compile Include="Assets\Scripts\XOManagement\SetUpXOMenuController.cs" />
+    <Compile Include="Assets\Scripts\XOManagement\TicTacToeController.cs" />
+    <Compile Include="Assets\Scripts\LoadingScene.cs" />
     <Compile Include="Assets\Simple Scroll-Snap\Examples\Example 6 (3D Shape Selection)\Scripts\Rotator.cs" />
-    <Compile Include="Assets\Scripts\XO Scripts\LoadingScene.cs" />
-    <Compile Include="Assets\Scripts\XO Scripts\XOManagement.cs" />
     <Compile Include="Assets\Simple Scroll-Snap\Examples\Example 3 (Slot Machine)\Scripts\SlotMachine.cs" />
     <Compile Include="Assets\Simple Scroll-Snap\Examples\Example 5 (Dynamic Content)\Scripts\DynamicContent.cs" />
-    <Compile Include="Assets\Scripts\WinPopUpController.cs" />
-    <Compile Include="Assets\Scripts\RateUsController.cs" />
+    <Compile Include="Assets\Scripts\XOManagement\GameController.cs" />
     <Compile Include="Assets\Simple Scroll-Snap\Examples\_Common\Scripts\ExpandInformation.cs" />
-    <Compile Include="Assets\Scripts\CampaignData.cs" />
+    <Compile Include="Assets\Scripts\XOManagement\DifficullyController.cs" />
+    <Compile Include="Assets\Scripts\XOManagement\WinPopUpController.cs" />
     <Compile Include="Assets\Scripts\MenuController.cs" />
-    <Compile Include="Assets\Scripts\XO Scripts\DifficullyController.cs" />
-    <Compile Include="Assets\Scripts\XO Scripts\SetUpXOController.cs" />
-    <Compile Include="Assets\Scripts\SettingPopUpController.cs" />
-    <Compile Include="Assets\Scripts\TicTacToeController.cs" />
-    <Compile Include="Assets\Scripts\WinPopUpCampaignController.cs" />
+    <Compile Include="Assets\Scripts\XOManagement\CampaignData.cs" />
+    <Compile Include="Assets\Scripts\XOManagement\CampaignController.cs" />
+    <Compile Include="Assets\Scripts\XOManagement\SettingPopUpController.cs" />
+    <Compile Include="Assets\Scripts\XOManagement\WinPopUpCampaignController.cs" />
     <Compile Include="Assets\Simple Scroll-Snap\Examples\Example 1 (macOS Finder)\Scripts\FileUI.cs" />
   </ItemGroup>
   <ItemGroup>
